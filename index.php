@@ -211,6 +211,7 @@ if ($params === '') {
                     <a id="aggiornamenti"></a>
                     <h5>News</h5>
                     <ul>
+                        <li><strong>25.03.2020</strong> - 1.7.12: Added Croatian translation.</li>
                         <li><strong>03.03.2020</strong> - 1.7.11: Updated PL, Added Norway to cookieLawStates.</li>
                         <li><strong>08.02.2020</strong> - 1.7.10: Updated RU, DE translation.</li>
                         <li><strong>09.07.2019</strong> - 1.7.9: Added BR translation, updated Danish, Czech, Hungarian translations.</li>
@@ -368,6 +369,7 @@ if ($params === '') {
                                         <option <?= (@$_GET['forceLang'] == "br") ? "selected" : "" ?> value='br'>Brazilian portuguese</option>
                                         <option <?= (@$_GET['forceLang'] == "bg") ? "selected" : "" ?> value='bg'>Bulgarian</option>
                                         <option <?= (@$_GET['forceLang'] == "ca") ? "selected" : "" ?> value='ca'>Catalan</option>
+                                        <option <?= (@$_GET['forceLang'] == "hr") ? "selected" : "" ?> value='hr'>Croatian</option>
                                         <option <?= (@$_GET['forceLang'] == "cs") ? "selected" : "" ?> value='cs'>Czech</option>
                                         <option <?= (@$_GET['forceLang'] == "da") ? "selected" : "" ?> value='da'>Danish</option>
                                         <option <?= (@$_GET['forceLang'] == "nl") ? "selected" : "" ?> value='nl'>Dutch</option>
