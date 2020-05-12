@@ -54,15 +54,22 @@
             <p>Per abilitare o disabilitare tutti i cookies mediante la configurazione del browser, clicca sul collegamento corrispondente e segui le istruzioni indicate:</p>
 
             <p>
-                <a target='_blank' href='https://support.google.com/accounts/answer/61416?hl=it'><span>Google Chrome</span></a>
-                <a target='_blank' href='https://support.mozilla.org/it/kb/Attivare%20e%20disattivare%20i%20cookie'><span>Mozilla Firefox</span></a>
-                <a target='_blank' href='http://windows.microsoft.com/it-it/internet-explorer/delete-manage-cookies'><span>Microsoft Internet Explorer</span></a>
-                <a target='_blank' href='http://help.opera.com/Windows/10.00/it/cookies.html'><span>Opera</span></a>
-                <a target='_blank' href='https://support.apple.com/kb/PH17191?viewlocale=it_IT&locale=it_IT'><span>Safari</span></a>
+                <a rel='nofollow' target='_blank' href='https://support.google.com/accounts/answer/61416?hl=it'><span>Google Chrome</span></a>
+                <a rel='nofollow' target='_blank' href='https://support.mozilla.org/it/kb/Attivare%20e%20disattivare%20i%20cookie'><span>Mozilla Firefox</span></a>
+                <a rel='nofollow' target='_blank' href='http://windows.microsoft.com/it-it/internet-explorer/delete-manage-cookies'><span>Microsoft Internet Explorer</span></a>
+                <a rel='nofollow' target='_blank' href='http://help.opera.com/Windows/10.00/it/cookies.html'><span>Opera</span></a>
+                <a rel='nofollow' target='_blank' href='https://support.apple.com/kb/PH17191?viewlocale=it_IT&locale=it_IT'><span>Safari</span></a>
             </p>
 
             <strong>Elenco dei cookies attualmente in uso:</strong>
-            <p id='cookies-list'>Nessun cookie è attualmente in uso.</p>
+            <ul id='cookies-list'>
+            <?php
+            $cookies = $_COOKIE;
+            foreach ($cookies as $name => $value) {
+                echo "<li><a rel='nofollow' target='_blank' href='https://cookiedatabase.org/cookie/google-analytics/" . $name . "'>" . $name . "</a></li>";
+            }
+            ?>
+            </ul>
 
             <strong>Servizi di terze parti che potrebbero essere utilizzati in questo sito e che potrebbero utilizzare cookies:</strong>
             <ul>
