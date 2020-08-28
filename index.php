@@ -211,6 +211,7 @@ if ($params === '') {
                     <a id="aggiornamenti"></a>
                     <h5>News</h5>
                     <ul>
+                        <li><strong>28.08.2020</strong> - 1.7.13: Updated Catalan translation.</li>
                         <li><strong>25.03.2020</strong> - 1.7.12: Added Croatian translation.</li>
                         <li><strong>03.03.2020</strong> - 1.7.11: Updated PL, Added Norway to cookieLawStates.</li>
                         <li><strong>08.02.2020</strong> - 1.7.10: Updated RU, DE translation.</li>
