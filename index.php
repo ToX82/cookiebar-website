@@ -145,6 +145,7 @@ if ($params === '') {
                     <p>Currently, the supported languages for cookieBAR are:</p>
                     <ul class="browser-default">
                         <li>Bulgarian</li>
+                        <li>Brazilian portuguese</li>
                         <li>Catalan</li>
                         <li>Czech</li>
                         <li>Danish</li>
@@ -541,10 +542,11 @@ if ($params === '') {
             <div id="contributors" class="col s12 m10 offset-m1">
                 <div class="section">
                     <a id="github"></a>
-                    <h5>Contributors (in order of appearance)</h5>
+                    <h5>Code contributors</h5>
                     <p>Code reviews, new functionalities, themes, languages... everything that can be useful for the users is very welcome. Plus, your name will be shown in the github's list :-)</p>
+                    <p>ToX82, pinhead84, michael-simons, utilsites, frantique, hrvoj3e, emanuelcanuto, bricebou, LucaRainone, xterr, timoleon, pridumkuvatyj, ominty, jacmaes, dskarasev, dan-szabo, catalin-tudor, burzka, buildcomplete, andreidumi, MartinKolarik, MarcCeleiro, MZOG, LukasDrgon, Hexodus, Fredrik82, D9ping, Commander238, AlexxIV, Adsidera...</p>
 
-                    <a href='https://github.com/ToX82/cookie-bar/graphs/contributors'>See the full GitHub's list</a>
+                    <a href='https://github.com/ToX82/cookie-bar/graphs/contributors' target="_blank" rel="nofollow">See the full GitHub's list</a>
                 </div>
 
                 <div class="divider"></div>
