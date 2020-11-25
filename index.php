@@ -476,7 +476,7 @@ if ($params === '') {
                                 <div class="input-field col s12">
                                     <label for='noConfirm'>
                                         <input type='checkbox' class='configurator validate' id='noConfirm' value='1' <?= (@$_GET['noConfirm']) ? "checked" : "" ?>>
-                                        <span>Don't show the confirmation when a user clicks on the DENY button</span> <span class="badge red white-text">NEW v.1.8.0</span></span>
+                                        <span>Don't show the confirmation dialog when a user clicks on the DENY button</span> <span class="badge red white-text">NEW v.1.8.0</span></span>
                                     </label>
                                 </div>
                             </div>
@@ -522,6 +522,7 @@ if ($params === '') {
                         </form>
                     </div>
 
+                    <p class="blue-grey-text text-darken-3">When you are satisfied with the look and feel of the cookieBAR, just paste the following script tag into your website. That's it!</p>
                     <pre class="z-depth-1"><code class="language-markup configuratorTag"><span style='color:#905;'>&lt;script</span> <span style='color:#690'>type=</span>&quot;text/javascript&quot; <span style='color:#690'>src=</span>&quot;https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?<?=$params?>&quot;<span style='color:#905;'>&gt;&lt;/script&gt;</span></code></pre>
 
                     <br><a class='configuratorDemo blue darken-3 waves-effect waves-light btn' href='https://cdn.jsdelivr.net/npm/cookie-bar/'><i class="mdi-content-send left"></i>Update demo</a>
