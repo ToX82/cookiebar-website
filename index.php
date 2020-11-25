@@ -203,6 +203,7 @@ if ($params === '') {
                     <a id="aggiornamenti"></a>
                     <h5>News</h5>
                     <ul>
+                        <li><strong>25.11.2020</strong> - 1.8.1: Updated Finnish translation.</li>
                         <li><strong>19.11.2020</strong> - 1.8.0: Made the DENY confirmation alert optional.</li>
                         <li><strong>28.08.2020</strong> - 1.7.13: Updated Catalan translation.</li>
                         <li><strong>25.03.2020</strong> - 1.7.12: Added Croatian translation.</li>
@@ -552,7 +553,7 @@ if ($params === '') {
                     <h5>Special thanks to the donors</h5>
                     <ul>
                         <li>Marco Frabetti, Marc Sellier, Bastian Scheefe, Martin J Powell, Gilles Nguyen, Ulrich Wende,
-                        Luca Gilardoni, Simen Ness, Monika Mosch, CompuSense Communication, John Stevens, Agriturismo Villa Podernovo Siena, Gottfried Weber</li>
+                        Luca Gilardoni, Simen Ness, Monika Mosch, CompuSense Communication, John Stevens, Agriturismo Villa Podernovo Siena, Gottfried Weber, Jussi Ruuskanen</li>
                     </ul>
                 </div>
             </div>
