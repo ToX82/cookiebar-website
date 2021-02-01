@@ -204,6 +204,8 @@ if ($params === '') {
                     <a id="aggiornamenti"></a>
                     <h5>News</h5>
                     <ul>
+                        <li><strong>01.02.2021</strong> - 1.8.3: Added Turkish translation.</li>
+                        <li><strong>17.12.2020</strong> - 1.8.2: Fixed broken safari link.</li>
                         <li><strong>25.11.2020</strong> - 1.8.1: Updated Finnish translation.</li>
                         <li><strong>19.11.2020</strong> - 1.8.0: Made the DENY confirmation alert optional.</li>
                         <li><strong>28.08.2020</strong> - 1.7.13: Updated Catalan translation.</li>
@@ -386,6 +388,7 @@ if ($params === '') {
                                         <option <?= (@$_GET['forceLang'] == "sk") ? "selected" : "" ?> value='sk'>Slovak</option>
                                         <option <?= (@$_GET['forceLang'] == "sl") ? "selected" : "" ?> value='sl'>Slovenian</option>
                                         <option <?= (@$_GET['forceLang'] == "sw") ? "selected" : "" ?> value='sw'>Swedish</option>
+                                        <option <?= (@$_GET['forceLang'] == "tr") ? "selected" : "" ?> value='tr'>Turkish</option>
                                     </select>
                                 </div>
                                 <div class="col s12 m6">
