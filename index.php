@@ -559,7 +559,7 @@ if ($params === '') {
                     <h5>Special thanks to the donors</h5>
                     <ul>
                         <li>Marco Frabetti, Marc Sellier, Bastian Scheefe, Martin J Powell, Gilles Nguyen, Ulrich Wende,
-                        Luca Gilardoni, Simen Ness, Monika Mosch, CompuSense Communication, John Stevens, Agriturismo Villa Podernovo Siena, Gottfried Weber, Jussi Ruuskanen</li>
+                        Luca Gilardoni, Simen Ness, Monika Mosch, CompuSense Communication, John Stevens, Agriturismo Villa Podernovo Siena, Gottfried Weber, Jussi Ruuskanen, Alex Roberts, Adam Wojtanek</li>
                     </ul>
                 </div>
             </div>
