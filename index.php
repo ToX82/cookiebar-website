@@ -83,6 +83,11 @@ if ($params === '') {
             <p>cookieBAR makes it simple and clear to visitors that cookies are in use and tells them how to adjust browser settings if they are concerned.</p>
             <p>Oh, and if you are using Wordpress, there's a <a href='https://wordpress.org/plugins/cookiebar/'>plugin</a> for you too</p>
 
+            <span class="badge left red white-text" style="margin: 0 10px 0 0;">New version!</span>
+            cookieBAR v. 1.9 is out! While most of the functionality remains the same, there is a new, optional "customize cookies" button that allows users to customize their choices.<br>
+            This means that you will need to make some small changes to the backend code, in order to detect the user's choice. <a class="tabopener" href='#preventive-block'>Click here for details.</a>
+            <br><br>
+
             <div class="row">
                 <div class="col s12">
                     <div class="card-panel grey lighten-2">
@@ -126,7 +131,7 @@ if ($params === '') {
 
                     <p>If a user decides to click "Disallow Cookies", cookieBAR will remove all the cookies and localStorage data (but it will show up again the first time a cookie is detected).</p>
 
-                    <p>Please note that the cookieBAR itself (or similar solutions) can't deal with external services, secure or HTTP-only cookies. You will probably need to deal with them preventively. Please read more about the preventive block <a href="https://cookie-bar.eu/#preventive-block">here</a>.</p>
+                    <p>Please note that the cookieBAR itself (or similar solutions) can't deal with external services, secure or HTTP-only cookies. You will probably need to deal with them preventively. Please read more about the preventive block <a class="tabopener" href="https://cookie-bar.eu/#preventive-block">here</a>.</p>
                 </div>
 
                 <div class="divider"></div>
@@ -158,6 +163,7 @@ if ($params === '') {
                         <li>Hungarian</li>
                         <li>Italian</li>
                         <li>Norwegian</li>
+                        <li>Occitan</li>
                         <li>Polish</li>
                         <li>Portuguese</li>
                         <li>Romanian</li>
@@ -168,7 +174,7 @@ if ($params === '') {
                         <li>Swedish</li>
                         <li>Swedish</li>
                     </ul>
-                    <p>The user language is automatically detected by the browser, but you can force a specific language by passing an optional parameter (see <a href="#configuration">Configuration</a>).</p>
+                    <p>The user language is automatically detected by the browser, but you can force a specific language by passing an optional parameter (see <a class="tabopener" href="#configuration">Configuration</a>).</p>
                     <p>If you want to help me with the translations, or add another language, please fork my <a href="https://github.com/ToX82/cookie-bar">Github</a> repository and make a pull request with your additions.</p>
                 </div>
 
@@ -204,6 +210,8 @@ if ($params === '') {
                     <a id="aggiornamenti"></a>
                     <h5>News</h5>
                     <ul>
+                        <li><strong>12.08.2021</strong> - 1.9.0: Added "customize cookies" options.</li>
+                        <li><strong>12.08.2021</strong> - 1.8.4: Added Occitan translation.</li>
                         <li><strong>01.02.2021</strong> - 1.8.3: Added Turkish translation.</li>
                         <li><strong>17.12.2020</strong> - 1.8.2: Fixed broken safari link.</li>
                         <li><strong>25.11.2020</strong> - 1.8.1: Updated Finnish translation.</li>
@@ -274,6 +282,12 @@ if ($params === '') {
             <div id="preventive-block" class="col s12 m10 offset-m1">
                 <div class="section">
                     <a id="important-reading"></a>
+                    <h5>Customize cookies (2.x)</h5>
+                    <p>
+                    Starting from version 2.x, the user may want to choose whether to accept technical or third-party cookies. This choice creates a new state for the `cookiebar` cookie, which is "CookieCustomized".
+                    In this case, in your backend it will be necessary to make two new checks to verify the value of the cookies `cookiebar-tracking` and `cookiebar-third-barty` (whose value can be true or false), and to instantiate the services, in a similar way to following examples.
+                    </p>
+
                     <h5>Preventive blocking of external services</h5>
                     Please note that in some countries the cookie law wants you to preventively block cookies before they are set, in a opt-in choice for the user.<br>
                     Doing so is a bit more technical than just having a banner like the cookieBAR, and there is not a unique solution for that. It depends on your website
@@ -381,6 +395,7 @@ if ($params === '') {
                                         <option <?= (@$_GET['forceLang'] == "no") ? "selected" : "" ?> value='no'>Norwegian</option>
                                         <option <?= (@$_GET['forceLang'] == "es") ? "selected" : "" ?> value='es'>Spanish</option>
                                         <option <?= (@$_GET['forceLang'] == "se") ? "selected" : "" ?> value='se'>Swedish</option>
+                                        <option <?= (@$_GET['forceLang'] == "oc") ? "selected" : "" ?> value='oc'>Occitan</option>
                                         <option <?= (@$_GET['forceLang'] == "pl") ? "selected" : "" ?> value='pl'>Polish</option>
                                         <option <?= (@$_GET['forceLang'] == "pt") ? "selected" : "" ?> value='pt'>Portuguese</option>
                                         <option <?= (@$_GET['forceLang'] == "ro") ? "selected" : "" ?> value='ro'>Romanian</option>
@@ -400,7 +415,17 @@ if ($params === '') {
                                         <option <?= (@$_GET['theme'] == "flying") ? "selected" : "" ?> value='flying'>FlyingBAR</option>
                                         <option <?= (@$_GET['theme'] == "grey") ? "selected" : "" ?> value='grey'>Plain grey</option>
                                         <option <?= (@$_GET['theme'] == "white") ? "selected" : "" ?> value='white'>Thick white</option>
+                                        <option <?= (@$_GET['theme'] == "minimal") ? "selected" : "" ?> value='minimal'>Minimal white</option>
                                     </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <label for='customize'>
+                                        <input type='checkbox' class='configurator validate' id='customize' value='1' <?= (@$_GET['customize']) ? "checked" : "" ?>>
+                                        <span>Let the users customize their cookie preferences (technical, third party, tracking)</span> <span class="badge red white-text">NEW v.1.9.0</span></span>
+                                    </label>
                                 </div>
                             </div>
 
@@ -480,7 +505,7 @@ if ($params === '') {
                                 <div class="input-field col s12">
                                     <label for='noConfirm'>
                                         <input type='checkbox' class='configurator validate' id='noConfirm' value='1' <?= (@$_GET['noConfirm']) ? "checked" : "" ?>>
-                                        <span>Don't show the confirmation dialog when a user clicks on the DENY button</span> <span class="badge red white-text">NEW v.1.8.0</span></span>
+                                        <span>Don't show the confirmation dialog when a user clicks on the DENY button</span>
                                     </label>
                                 </div>
                             </div>
@@ -559,7 +584,9 @@ if ($params === '') {
                     <h5>Special thanks to the donors</h5>
                     <ul>
                         <li>Marco Frabetti, Marc Sellier, Bastian Scheefe, Martin J Powell, Gilles Nguyen, Ulrich Wende,
-                        Luca Gilardoni, Simen Ness, Monika Mosch, CompuSense Communication, John Stevens, Agriturismo Villa Podernovo Siena, Gottfried Weber, Jussi Ruuskanen, Alex Roberts, Adam Wojtanek</li>
+                        Luca Gilardoni, Simen Ness, Monika Mosch, CompuSense Communication, John Stevens,
+                        Agriturismo Villa Podernovo Siena, Gottfried Weber, Jussi Ruuskanen, Alex Roberts,
+                        Adam Wojtanek, Software Studio ing. Di Marco, Miroslav Svoboda, Adrian Döring</li>
                     </ul>
                 </div>
             </div>
@@ -654,7 +681,7 @@ s0.parentNode.insertBefore(s1,s0);
 
 <?php if ($_SERVER['SERVER_NAME'] == 'localhost') { ?>
     <script src="script.js"></script>
-    <script src="../cookiebar/cookiebar-latest.min.js?<?=$params?>"></script>
+    <script src="../cookiebar/cookiebar-latest.js?<?=$params?>"></script>
 <?php } else { ?>
     <script src="script.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?<?=$params?>"></script>

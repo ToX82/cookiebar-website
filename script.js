@@ -6,7 +6,7 @@ $(document).ready(function() {
     $('.collapsible').collapsible();
     $('.tooltipped').tooltip();
 
-    $(".tab a").on('click', function() {
+    $(".tab a, a.tabopener").on('click', function() {
         var hash = $(this).attr('href');
         window.location.hash = hash;
     });
