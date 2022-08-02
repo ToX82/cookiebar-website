@@ -43,6 +43,16 @@ pre {
     hyphens: none;
     overflow: auto;
 }
+ul.list li {
+    list-style-type: disc;
+    padding: 1px;
+    margin-left: 19px;
+}
+.keyword {
+    font-family: monospace;
+    background: #eee;
+    padding: 2px 4px;
+}
 .configuratorTag {
     color: #07a;
     font-size: 13px;

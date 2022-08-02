@@ -111,6 +111,7 @@ if ($params === '') {
                     <li class="tab"><a href="#cookiebar">About</a></li>
                     <li class="tab"><a href="#news">News</a></li>
                     <li class="tab"><a href="#preventive-block">Preventive block</a></li>
+                    <li class="tab"><a href="#logging">Logging</a></li>
                     <li class="tab"><a href="#legal-notes">Legal notes</a></li>
                     <li class="tab"><a href="#contributors">Contributors</a></li>
                 </ul>
@@ -340,6 +341,38 @@ if ($params === '') {
                 </div>
             </div>
             <!-- end #preventive-block -->
+
+
+            <!-- start #logging -->
+            <div id="logging" class="col s12 m10 offset-m1">
+                <div class="section">
+                    <a id="important-reading"></a>
+                    <h5>Logging user choices</h5>
+                    <p>
+                    In some countries it is necessary to keep a record of the user's choices regarding cookies.<br>
+                    CookieBAR is a frontend-only tool, and for now it doesn't provide this functionality, but it's easy to get the result of a user's choice and save the record in your own database.<br><br>
+
+                    When a user sets a preference, a cookie is in fact recorded, called `cookiebar`, which can contain one of these values:<br>
+
+                    <ul class='list'>
+                    <li><span class='keyword'>CookieAllowed</span> (the user has chosen to accept all cookies),</li>
+                    <li><span class='keyword'>CookieDisallowed</span> (the user has chosen to refuse all cookies),</li>
+                    <li><span class='keyword'>CookieCustomized</span> (the user has chosen to accept only certain types of cookies).</li>
+                    </ul>
+                    <br>
+
+                    In the event that the user has chosen to customize cookies, it will be possible to find one or two additional cookies:
+                    <ul class='list'>
+                    <li><span class='keyword'>cookiebar-tracking</span> (the user has accepted the tracking cookies),</li>
+                    <li><span class='keyword'>cookiebar-third-party</span> (the user has accepted third-party cookies).</li>
+                    </ul>
+                    <br>
+                    With this information you should be able to create your own function for saving user choices, without relying on external services.
+                    </p>
+                    
+                </div>
+            </div>
+            <!-- end #logging -->
 
             <!-- start #legal-notes -->
             <div id="legal-notes" class="col s12 m10 offset-m1">
