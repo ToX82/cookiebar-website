@@ -156,6 +156,7 @@ if ($params === '') {
                         <li>Danish</li>
                         <li>Dutch</li>
                         <li>English</li>
+                        <li>Estonian</li>
                         <li>Finnish</li>
                         <li>French</li>
                         <li>German</li>
@@ -210,6 +211,7 @@ if ($params === '') {
                     <a id="aggiornamenti"></a>
                     <h5>News</h5>
                     <ul>
+                        <li><strong>02.08.2022</strong> - 1.9.4: Added Estonian translation.</li>
                         <li><strong>12.08.2021</strong> - 1.9.0: Added "customize cookies" options.</li>
                         <li><strong>12.08.2021</strong> - 1.8.4: Added Occitan translation.</li>
                         <li><strong>01.02.2021</strong> - 1.8.3: Added Turkish translation.</li>
@@ -386,6 +388,7 @@ if ($params === '') {
                                         <option <?= (@$_GET['forceLang'] == "da") ? "selected" : "" ?> value='da'>Danish</option>
                                         <option <?= (@$_GET['forceLang'] == "nl") ? "selected" : "" ?> value='nl'>Dutch</option>
                                         <option <?= (@$_GET['forceLang'] == "en") ? "selected" : "" ?> value='en'>English</option>
+                                        <option <?= (@$_GET['forceLang'] == "et") ? "selected" : "" ?> value='et'>Estonian</option>
                                         <option <?= (@$_GET['forceLang'] == "fr") ? "selected" : "" ?> value='fr'>French</option>
                                         <option <?= (@$_GET['forceLang'] == "fi") ? "selected" : "" ?> value='fi'>Finnish</option>
                                         <option <?= (@$_GET['forceLang'] == "de") ? "selected" : "" ?> value='de'>German</option>
