@@ -80,19 +80,17 @@ if ($params === '') {
             <a id="why-use-cookiebar"></a>
             <h5>Why cookieBAR?</h5>
             <p>There is a lot of mystery and fuss surrounding the EU cookie legislation, but it's essentially really simple. Cookies are files used to track site activity and most websites use them. Site owners need to make the use of cookies very obvious to visitors.</p>
-            <p>cookieBAR makes it simple and clear to visitors that cookies are in use and tells them how to adjust browser settings if they are concerned.</p>
-            <p>Oh, and if you are using Wordpress, there's a <a href='https://wordpress.org/plugins/cookiebar/'>plugin</a> for you too</p>
+            <p>cookieBAR makes it simple and clear to visitors that cookies are in use and tells them how to adjust their browser settings if they are concerned.</p>
 
             <span class="badge left red white-text" style="margin: 0 10px 0 0;">New version!</span>
-            cookieBAR v. 1.9 is out! While most of the functionality remains the same, there is a new, optional "customize cookies" button that allows users to customize their choices.<br>
-            This means that you will need to make some small changes to the backend code, in order to detect the user's choice. <a class="tabopener" href='#preventive-block'>Click here for details.</a>
+            cookieBAR v. 1.10 is out! While most of the functionality remains the same, there is a new cookiebarConsent event listener that allows advanced users to detect the user's choices and act accordingly.
             <br><br>
 
             <div class="row">
                 <div class="col s12">
                     <div class="card-panel grey lighten-2">
                         <span class="grey-text text-darken-3">
-                            <span class="badge blue white-text">TIP</span> If you want to give to the user the possibility to block the cookies again, thus showing the cookiebar, you can add this link somewhere in your page
+                            <span class="badge blue white-text">TIP</span> If you want to give the user the possibility to block the cookies again, thus showing the cookiebar, you can add this link somewhere on your page.
                             <code><pre><span style='color:#905;'>&lt;a</span> <span style='color:#690'>href=</span><span style='color:#07a'>"#"</span> <span style='color:#690'>onclick=</span><span style='color:#07a'>"document.cookie='cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/'; setupCookieBar(); return false;"</span><span style='color:#905'>&gt;</span>Click here to revoke the Cookie consent<span style='color:#905'>&lt;/a&gt;</span></pre></code>
                             Test: <a href="#" onclick="document.cookie='cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/'; setupCookieBar(); return false;">Click here to revoke the Cookie consent</a>
                         </span>
@@ -126,9 +124,9 @@ if ($params === '') {
                     <a id="how-it-works"></a>
                     <h5>How it works</h5>
 
-                    <p>cookieBAR is drop-in and forget. Written in pure vanilla javascript code, no jQuery or any other dependency needed. It shows up when needed and stay silent when not: If a website has some cookies or localStorage data set then the bar is shown, otherwhise nothing happens. This is configurable, anyway.</p>
+                    <p>cookieBAR is drop-in and forget. Written in vanilla Javascript code, no jQuery or other dependencies are required. It shows up when needed and stays silent when not: If a website has some cookies or localStorage data set, then the bar is shown, otherwise nothing happens. This is configurable, anyway.</p>
 
-                    <p>Once the user clicks 'Allow Cookies', cookieBAR will set a cookie for that domain with a name 'cookiebar' that will expire in 30 days. What this means is that the plugin will only show up once per domain (per month).</p>
+                    <p>Once the user clicks 'Allow Cookies', cookieBAR will set a cookie for that domain with the name 'cookiebar' that will expire in 30 days. What this means is that the plugin will only show up once per domain (per month).</p>
 
                     <p>If a user decides to click "Disallow Cookies", cookieBAR will remove all the cookies and localStorage data (but it will show up again the first time a cookie is detected).</p>
 
@@ -140,7 +138,7 @@ if ($params === '') {
                 <div class="section">
                     <a id="why-did-i-wrote-this"></a>
                     <h5>Why did I write this?</h5>
-                    <p>Because I needed it. I got the idea from <a href="http://permissionbar.com/">Studio NEC's permissionbar</a>, which was beautiful, but I needed something more configurable, multilanguage and not dependent upon jQuery or any other javascript framework. So I forked the original project on GitHub and started to add what I needed, concluding with a pull-request whose code was completely rewritten. Sadly, the original project seems stopped and nobody has even probably seen my modifications. Several months later I decided to add even more things and to give this plugin a place to be, which is why it became cookieBAR.
+                    <p>Because I needed it. I got the idea from <a href="http://permissionbar.com/">Studio NEC's permissionbar</a>, which was beautiful, but I needed something more configurable, multilingual and not dependent upon jQuery or any other Javascript framework. So I forked the original project on GitHub and started to add what I needed, concluding with a pull-request whose code was completely rewritten. Sadly, the original project seems to have stopped, and nobody has probably even seen my modifications. Several months later, I decided to add even more things and to give this plugin a place to be, which is why it became cookieBAR.
                 </div>
 
                 <div class="divider"></div>
@@ -176,8 +174,8 @@ if ($params === '') {
                         <li>Swedish</li>
                         <li>Swedish</li>
                     </ul>
-                    <p>The user language is automatically detected by the browser, but you can force a specific language by passing an optional parameter (see <a class="tabopener" href="#configuration">Configuration</a>).</p>
-                    <p>If you want to help me with the translations, or add another language, please fork my <a href="https://github.com/ToX82/cookie-bar">Github</a> repository and make a pull request with your additions.</p>
+                    <p>The user's language is automatically detected by the browser, but you can force a specific language by passing an optional parameter (see <a class="tabopener" href="#configuration">Configuration</a>).</p>
+                    <p>If you want to help me with the translations or add another language, please fork my <a href="https://github.com/ToX82/cookie-bar">Github</a> repository and make a pull request with your additions.</p>
                 </div>
 
                 <div class="divider"></div>
@@ -212,6 +210,7 @@ if ($params === '') {
                     <a id="aggiornamenti"></a>
                     <h5>News</h5>
                     <ul>
+                        <li><strong>17.10.2022</strong> - 1.10.0: Added the cookiebarConsent event listener.</li>
                         <li><strong>02.08.2022</strong> - 1.9.4: Added Estonian translation.</li>
                         <li><strong>12.08.2021</strong> - 1.9.0: Added "customize cookies" options.</li>
                         <li><strong>12.08.2021</strong> - 1.8.4: Added Occitan translation.</li>
@@ -285,14 +284,14 @@ if ($params === '') {
             <div id="preventive-block" class="col s12 m10 offset-m1">
                 <div class="section">
                     <a id="important-reading"></a>
-                    <h5>Customize cookies (2.x)</h5>
+                    <h5>Customize cookies (1.9)</h5>
                     <p>
-                    Starting from version 2.x, the user may want to choose whether to accept technical or third-party cookies. This choice creates a new state for the `cookiebar` cookie, which is "CookieCustomized".
-                    In this case, in your backend it will be necessary to make two new checks to verify the value of the cookies `cookiebar-tracking` and `cookiebar-third-barty` (whose value can be true or false), and to instantiate the services, in a similar way to following examples.
+                    Starting from version 1.9, the user may want to choose whether to accept technical or third-party cookies. This choice creates a new state for the `cookiebar` cookie, which is "CookieCustomized".
+                    In this case, in your backend, it will be necessary to make two new checks to verify the value of the cookies `cookiebar-tracking` and `cookiebar-third-barty` (whose value can be true or false), and to instantiate the services, in a similar way to the following examples.
                     </p>
 
                     <h5>Preventive blocking of external services</h5>
-                    Please note that in some countries the cookie law wants you to preventively block cookies before they are set, in a opt-in choice for the user.<br>
+                    Please note that in some countries, the cookie law wants you to preventively block cookies before they are set, in an opt-in choice for the user.<br>
                     Doing so is a bit more technical than just having a banner like the cookieBAR, and there is not a unique solution for that. It depends on your website
                     and its technology.<br>
                     By using cookieBAR anyway, it is easy to detect if a user has accepted cookies by checking the presence of a cookie named "cookiebar".<br>
@@ -379,8 +378,8 @@ if ($params === '') {
                 <div class="section">
                     <a id="legal-reading"></a>
                     <h5>Legal Notes</h5>
-                    <p>Please note that using cookieBAR (or any similar tool) might be not sufficient to fully accomplish
-                        to your country's cookie law. Please read the following links to find out more.</p>
+                    <p>Please note that using cookieBAR (or any similar tool) might not be sufficient to fully accomplish
+                        your country's cookie law. Please read the following links to find out more.</p>
 
                     <ul class="browser-default">
                         <li>
@@ -460,7 +459,7 @@ if ($params === '') {
                                 <div class="input-field col s12">
                                     <label for='customize'>
                                         <input type='checkbox' class='configurator validate' id='customize' value='1' <?= (@$_GET['customize']) ? "checked" : "" ?>>
-                                        <span>Let the users customize their cookie preferences (technical, third party, tracking)</span> <span class="badge red white-text">NEW v.1.9.0</span></span>
+                                        <span>Let the users customize their cookie preferences (technical, third party, tracking)</span>
                                     </label>
                                 </div>
                             </div>
@@ -593,7 +592,28 @@ if ($params === '') {
                     <br><a class='configuratorDemo blue darken-3 waves-effect waves-light btn' href='https://cdn.jsdelivr.net/npm/cookie-bar/'><i class="mdi-content-send left"></i>Update demo</a>
 
                     <p>Please note: If you select an option with the "NEW" tag, and you see it's not working on your website, please wait for a few
-                        days before reporting: the changes may still be propagating through the CDN and should be visible in a maximum of 10 days</p>
+                        days before reporting it: the changes may still be propagating through the CDN and should be visible in a maximum of 10 days.</p>
+
+
+                    <hr>
+                    <h3><span class="badge red white-text">NEW v.1.10.0</span>Custom events</h3>
+                    <p>
+                        Advanced users might want to track the user's choice about the cookie consent. Did the user accept, decline, or customize the cookie consent?
+                        <br>
+                        There is a way to "intercept" the user's choice. All you have to do is to start with this code and write your own logic:
+                        <code><pre>
+document.addEventListener('cookiebarConsent', (e) => {
+    console.log(e.detail.consent);
+});</pre></code>
+                        The code above will asynchronously subscribe to the <code>cookiebarConsent</code> event, logging the user's choice in the console.
+                        <br>
+                        The <code>cookiebarConsent</code> event will contain one of the following values:
+                        <ul>
+                            <li><code style="font-style: italic;">CookieAllowed</code>: The user agreed to accept cookies;</li>
+                            <li><code style="font-style: italic;">CookieDisallowed</code>: The user refused cookies;</li>
+                            <li><code style="font-style: italic;">CookieCustomized</code>: The user customized the cookie consent.</li>
+                        </ul>
+                    </p>
 
                     <div class='hidden configuratorBaseUrlOpen'><span style='color:#905;'>&lt;script</span> <span style='color:#690'>type=</span>&quot;text/javascript&quot; <span style='color:#690'>src=</span>&quot;</div>
                     <div class='hidden configuratorBaseUrl'>https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js</div>
@@ -607,7 +627,7 @@ if ($params === '') {
                 <div class="section">
                     <a id="github"></a>
                     <h5>Code contributors</h5>
-                    <p>Code reviews, new functionalities, themes, languages... everything that can be useful for the users is very welcome. Plus, your name will be shown in the github's list :-)</p>
+                    <p>Code reviews, new functionalities, themes, languages... everything that can be useful for the users is very welcome. Plus, your name will be shown in the GitHub list :-)</p>
                     <p>ToX82, pinhead84, michael-simons, utilsites, frantique, hrvoj3e, emanuelcanuto, bricebou, LucaRainone, xterr, timoleon, pridumkuvatyj, ominty, jacmaes, dskarasev, dan-szabo, catalin-tudor, burzka, buildcomplete, andreidumi, MartinKolarik, MarcCeleiro, MZOG, LukasDrgon, Hexodus, Fredrik82, D9ping, Commander238, AlexxIV, Adsidera...</p>
 
                     <a href='https://github.com/ToX82/cookie-bar/graphs/contributors' target="_blank" rel="nofollow">See the full GitHub's list</a>
@@ -622,7 +642,7 @@ if ($params === '') {
                         <li>Marco Frabetti, Marc Sellier, Bastian Scheefe, Martin J Powell, Gilles Nguyen, Ulrich Wende,
                         Luca Gilardoni, Simen Ness, Monika Mosch, CompuSense Communication, John Stevens,
                         Agriturismo Villa Podernovo Siena, Gottfried Weber, Jussi Ruuskanen, Alex Roberts,
-                        Adam Wojtanek, Software Studio ing. Di Marco, Miroslav Svoboda, Adrian Döring</li>
+                        Adam Wojtanek, Software Studio ing. Di Marco, Miroslav Svoboda, Adrian Döring, Dieter Walckiers</li>
                     </ul>
                 </div>
             </div>
@@ -634,7 +654,7 @@ if ($params === '') {
         <div class="section">
             <a id="disclaimer"></a>
             <h5>Disclaimer</h5>
-            <p>This program is free software. It comes without any warranty, to the extent permitted by applicable law. Use at your own risk and double check your local law before using it.</p>
+            <p>This program is free software. It comes without any warranty, to the extent permitted by applicable law. Use it at your own risk and double check your local laws before using it.</p>
         </div>
     </div>
 
@@ -645,7 +665,7 @@ if ($params === '') {
                 <div class="col l6 s12">
                     <h5 class="white-text">cookieBAR</h5>
                     <div class="grey-text text-lighten-4">
-                        I hope that you will try and enjoy cookieBAR as much as I did writing it. If so, please drop me a line at <a class="blue-text text-lighten-3" href="http://emanuele.itoscano.com/nodes/view/63_contacts">My website</a>. If cookieBAR has been really useful to you, please consider to make a small donation as a token of your appreciation and to help me keep this up :)
+                        I hope that you will try and enjoy cookieBAR as much as I did writing it. If so, please drop me a line at <a class="blue-text text-lighten-3" href="http://emanuele.itoscano.com/nodes/view/63_contacts">my website</a>. If cookieBAR has been really useful to you, please consider making a small donation as a token of your appreciation and to help me keep this up :)
 
                         <br>
                         <ul class="collapsible popout grey-text text-darken-3" data-collapsible="accordion">
