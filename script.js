@@ -1,10 +1,11 @@
-document.cookie = 'DemoCookieBar=demo';
+document.cookie = 'DemoCookieBar=demo; SameSite=Strict';
 
 $(document).ready(function() {
     $('select').formSelect();
     $('.tabs').tabs();
     $('.collapsible').collapsible();
     $('.tooltipped').tooltip();
+    reconfigure();
 
     $(".tab a, a.tabopener").on('click', function() {
         var hash = $(this).attr('href');
@@ -50,7 +51,7 @@ $(document).ready(function() {
         e.preventDefault();
         var href = $(this).attr('href');
         href = href.replace('https://cdn.jsdelivr.net/npm/cookie-bar/', '');
-        window.location.replace(href + "#installation");
+        window.location.replace(href);
     });
 
     $.fn.selectText = function(){

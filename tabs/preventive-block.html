@@ -1,0 +1,58 @@
+<div id="preventive-block" class="col s12 m10 offset-m1">
+    <div class="section">
+        <a id="important-reading"></a>
+        <h5>Customize cookies (1.9)</h5>
+        <p>
+        Starting from version 1.9, the user may want to choose whether to accept technical or third-party cookies. This choice creates a new state for the `cookiebar` cookie, which is "CookieCustomized".
+        In this case, in your backend, it will be necessary to make two new checks to verify the value of the cookies `cookiebar-tracking` and `cookiebar-third-barty` (whose value can be true or false), and to instantiate the services, in a similar way to the following examples.
+        </p>
+
+        <h5>Preventive blocking of external services</h5>
+        Please note that in some countries, the cookie law wants you to preventively block cookies before they are set, in an opt-in choice for the user.<br>
+        Doing so is a bit more technical than just having a banner like the cookieBAR, and there is not a unique solution for that. It depends on your website
+        and its technology.<br>
+        By using cookieBAR anyway, it is easy to detect if a user has accepted cookies by checking the presence of a cookie named "cookiebar".<br>
+        That cookie can have two values: "CookieAllowed" or "CookieDisallowed".<br>
+        These are some examples of this kind of check before loading a script:<br><br>
+
+        <h6>In JavaScript:</h6>
+        <pre class="z-depth-1"><span style='color:#808030; '>&lt;</span>script type<span style='color:#808030; '>=</span><span style='color:#800000; '>"</span><span style='color:#0000e6; '>text/javascript</span><span style='color:#800000; '>"</span><span style='color:#808030; '>></span>
+cookieValue <span style='color:#808030; '>=</span> document<span style='color:#808030; '>.</span>cookie<span style='color:#808030; '>.</span><span style='color:#800000; font-weight:bold; '>match</span><span style='color:#808030; '>(</span><span style='color:#800000; '>/</span><span style='color:#808030; '>(</span><span style='color:#0000e6; '>;</span><span style='color:#808030; '>)</span><span style='color:#808030; '>?</span><span style='color:#0000e6; '>cookiebar=</span><span style='color:#808030; '>(</span><span style='color:#808030; '>[</span><span style='color:#808030; '>^</span><span style='color:#0000e6; '>;</span><span style='color:#808030; '>]</span><span style='color:#808030; '>*</span><span style='color:#808030; '>)</span><span style='color:#0000e6; '>;</span><span style='color:#808030; '>?</span><span style='color:#800000; '>/</span><span style='color:#808030; '>)</span><span style='color:#808030; '>[</span><span style='color:#008c00; '>2</span><span style='color:#808030; '>]</span><span style='color:#800080; '>;</span>
+<span style='color:#800000; font-weight:bold; '>if</span> <span style='color:#808030; '>(</span>cookieValue <span style='color:#808030; '>==</span> <span style='color:#800000; '>'</span><span style='color:#0000e6; '>CookieAllowed</span><span style='color:#800000; '>'</span><span style='color:#808030; '>)</span> <span style='color:#800080; '>{</span>
+<span style='color:#696969; '>// The user has allowed cookies, let's load our external services</span>
+<span style='color:#800080; '>}</span>
+<span style='color:#808030; '>&lt;</span><span style='color:#808030; '>/</span>script<span style='color:#808030; '>></span>
+    </pre>
+
+        <h6>or PHP</h6>
+        <pre class="z-depth-1"><span style='color:#5f5035;'>&lt;?php</span><span style='color:#000000;'></span>
+<span style='color:#800000;font-weight:bold; '>if</span><span style='color:#000000;'> </span><span style='color:#808030;'>(</span><span style='color:#797997;'>$_COOKIE</span><span style='color:#808030;'>[</span><span style='color:#0000e6;'>'cookiebar'</span><span style='color:#808030;'>]</span><span style='color:#000000;'> </span><span style='color:#808030;'>=</span><span style='color:#808030;'>=</span><span style='color:#000000;'> </span><span style='color:#0000e6;'>"CookieAllowed"</span><span style='color:#808030;'>)</span><span style='color:#000000;'> </span><span style='color:#800080;'>{</span><span style='color:#000000;'></span>
+<span style='color:#000000;'>&#xa0;&#xa0;&#xa0;&#xa0;</span><span style='color:#696969;'>// The user has allowed cookies, let's load our external services</span><span style='color:#000000;'></span>
+<span style='color:#800080;'>}</span><span style='color:#000000;'></span>
+<span style='color:#5f5035;'>?></span>
+    </pre>
+
+        <h6>or Classic ASP VBScript</h6>
+        <pre class="z-depth-1"><span style='color:#5f5035; '>&lt;%</span><span style='color:#000000; '></span>
+<span style='color:#800000; font-weight:bold; '>If</span><span style='color:#000000; '> Request</span><span style='color:#008c00; '>.</span><span style='color:#000000; '>Cookies</span><span style='color:#808030; '>(</span><span style='color:#808030; '>"</span><span style='color:#0000e6; '>cookiebar</span><span style='color:#808030; '>"</span><span style='color:#808030; '>)</span><span style='color:#000000; '> </span><span style='color:#808030; '>=</span><span style='color:#000000; '> </span><span style='color:#808030; '>"</span><span style='color:#0000e6; '>CookieAllowed</span><span style='color:#808030; '>"</span><span style='color:#000000; '> </span><span style='color:#800000; font-weight:bold; '>Then</span><span style='color:#000000; '></span>
+<span style='color:#000000; '>&#xa0;&#xa0;&#xa0;&#xa0;</span><span style='color:#696969; '>' The user has allowed cookies, let's load our external services</span><span style='color:#000000; '></span>
+<span style='color:#800000; font-weight:bold; '>End If</span><span style='color:#000000; '></span>
+<span style='color:#5f5035; '>%></span>
+    </pre>
+
+        <h6>or Rails - Haml version</h6>
+        <pre class="z-depth-1"><span style='color:#808030; '>-</span> <span style='color:#800000; font-weight:bold; '>if</span> cookies<span style='color:#808030; '>[</span><span style='color:#800000; '>"</span><span style='color:#0000e6; '>accept_cookies_policy</span><span style='color:#800000; '>"</span><span style='color:#808030; '>]</span> <span style='color:#808030; '>==</span> <span style='color:#800000; '>'</span><span style='color:#0000e6; '>1</span><span style='color:#800000; '>'</span>
+<span style='color:#696969; '>//DO YOUR STUFF</span>
+    </pre>
+
+        <h6>or Rails - ERB version</h6>
+        <pre class="z-depth-1"><span style='color:#808030; '>&lt;</span><span style='color:#808030; '>%</span> <span style='color:#800000; font-weight:bold; '>if</span> cookies<span style='color:#808030; '>[</span><span style='color:#800000; '>"</span><span style='color:#0000e6; '>accept_cookies_policy</span><span style='color:#800000; '>"</span><span style='color:#808030; '>]</span> <span style='color:#808030; '>==</span> <span style='color:#800000; '>'</span><span style='color:#0000e6; '>1</span><span style='color:#800000; '>'</span> <span style='color:#808030; '>%</span><span style='color:#808030; '>></span>
+<span style='color:#808030; '>&lt;</span><span style='color:#808030; '>--</span><span style='color:#808030; '>!</span>DO YOUR STUFF <span style='color:#808030; '>--</span><span style='color:#808030; '>></span>
+<span style='color:#808030; '>&lt;</span><span style='color:#808030; '>%</span> end <span style='color:#808030; '>%</span><span style='color:#808030; '>></span>
+    </pre>
+
+        <br><br>
+
+        If you have some snippets in other languages that could be useful to the users, please drop me a line.
+    </div>
+</div>

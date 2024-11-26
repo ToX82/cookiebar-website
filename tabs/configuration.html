@@ -1,0 +1,219 @@
+<div id="configuration" class="col s12 m10 offset-m1">
+    <div class="section">
+        <h5>Configurator</h5>
+
+        <div class="row">
+        <form class="col s12">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <label for='forceLang'>Use language autodetection or force a specific language</label>
+                        <select class='configurator' id='forceLang'>
+                            <option value=''>Autodetect</option>
+                            <option value='br'>Brazilian portuguese</option>
+                            <option value='bg'>Bulgarian</option>
+                            <option value='ca'>Catalan</option>
+                            <option value='hr'>Croatian</option>
+                            <option value='cs'>Czech</option>
+                            <option value='da'>Danish</option>
+                            <option value='nl'>Dutch</option>
+                            <option value='en'>English</option>
+                            <option value='et'>Estonian</option>
+                            <option value='fr'>French</option>
+                            <option value='fi'>Finnish</option>
+                            <option value='de'>German</option>
+                            <option value='el'>Greek</option>
+                            <option value='hu'>Hungarian</option>
+                            <option value='it'>Italian</option>
+                            <option value='no'>Norwegian</option>
+                            <option value='es'>Spanish</option>
+                            <option value='se'>Swedish</option>
+                            <option value='oc'>Occitan</option>
+                            <option value='pl'>Polish</option>
+                            <option value='pt'>Portuguese</option>
+                            <option value='ro'>Romanian</option>
+                            <option value='ru'>Russian</option>
+                            <option value='sk'>Slovak</option>
+                            <option value='sl'>Slovenian</option>
+                            <option value='sw'>Swedish</option>
+                            <option value='tr'>Turkish</option>
+                        </select>
+                    </div>
+                    <div class="col s12 m6">
+                        <label for='theme'>Choose a theme</label>
+                        <select class='configurator' id='theme'>
+                            <option value=''>Default (black)</option>
+                            <option value='altblack'>Alternative black</option>
+                            <option value='momh'>Momh</option>
+                            <option value='flying'>FlyingBAR</option>
+                            <option value='grey'>Plain grey</option>
+                            <option value='white'>Thick white</option>
+                            <option value='minimal'>Minimal white</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for='customize'>
+                            <input type='checkbox' class='configurator validate' id='customize' value='1'>
+                            <span>Let the users customize their cookie preferences (technical, third party, tracking)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for='tracking'>
+                            <input type='checkbox' class='configurator validate' id='tracking' value='1'>
+                            <span>The website uses tracking cookies</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for='thirdparty'>
+                            <input type='checkbox' class='configurator validate' id='thirdparty' value='1'>
+                            <span>The website uses third party cookies</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for='always'>
+                            <input type='checkbox' class='configurator validate' id='always' value='1'>
+                            <span>Always show cookieBAR (show cookieBAR even if no cookies are detected)</span><span class="badge orange white-text tooltipped" data-tooltip="The cookieBAR has the possibility to stay silent if there are no javascript readable cookies or localstorage.<br>This could be an issue if you have non HTTP or SECURE cookies, which are not detectable by Javascript.<br><br>If unsure, keep this checkbox checked :)">READ ME</span></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for='noGeoIp'>
+                            <input type='checkbox' class='configurator validate' id='noGeoIp' value='1'>
+                            <span>No GeoIP lookup (show cookieBAR regardless of the user's location)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for='scrolling'>
+                            <input type='checkbox' class='configurator validate' id='scrolling' value='1'>
+                            <span>Accept cookies by scrolling window</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for='refreshPage'>
+                            <input type='checkbox' class='configurator validate' id='refreshPage' value='1'>
+                            <span>Refresh page on CookieAllowed</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for='top'>
+                            <input type='checkbox' class='configurator validate' id='top' value='1'>
+                            <span>Show cookieBAR on top</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for='showNoConsent'>
+                            <input type='checkbox' class='configurator validate' id='showNoConsent' value='1'>
+                            <span>Show DENY button</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for='noConfirm'>
+                            <input type='checkbox' class='configurator validate' id='noConfirm' value='1'>
+                            <span>Don't show the confirmation dialog when a user clicks on the DENY button</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for='hideDetailsBtn'>
+                            <input type='checkbox' class='configurator validate' id='hideDetailsBtn' value='1'>
+                            <span>Hide the "Details" button from the main bar</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for='showPolicyLink'>
+                            <input type='checkbox' class='configurator validate' id='showPolicyLink' value='1'>
+                            <span>Show the policy page link in the main bar <small>(you must specify the URL of your custom Privacy Page)</small>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for='blocking'>
+                            <input type='checkbox' class='configurator validate' id='blocking' value='1'>
+                            <span>Blocking (forces a user to select whether to accept or decline cookies)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12 m5">
+                        <input type='text' class='configurator validate' id='remember'>
+                        <label for='remember'>Remember choice for X days (default 30)</label>
+                    </div>
+
+                    <div class="input-field col s12 m7">
+                        <input type='text' class='configurator validate' id='privacyPage'>
+                        <label for='privacyPage'>URL of your custom Privacy Page</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <p class="blue-grey-text text-darken-3">When you are satisfied with the look and feel of the cookieBAR, just paste the following script tag into your website. That's it!</p>
+        <pre class="z-depth-1"><code class="language-markup configuratorTag"><span style='color:#905;'>&lt;script</span> <span style='color:#690'>type=</span>&quot;text/javascript&quot; <span style='color:#690'>src=</span>&quot;#preview#&quot;<span style='color:#905;'>&gt;&lt;/script&gt;</span></code></pre>
+
+        <br><a class='configuratorDemo blue darken-3 waves-effect waves-light btn' href='javascript:void(0)'><i class="mdi-content-send left"></i>Update demo</a>
+
+        <p>Please note: If you select an option with the "NEW" tag, and you see it's not working on your website, please wait for a few
+            days before reporting it: the changes may still be propagating through the CDN and should be visible in a maximum of 10 days.</p>
+
+
+        <hr>
+        <h3><span class="badge red white-text">NEW v.1.10.0</span>Custom events</h3>
+        <p>
+            Advanced users might want to track the user's choice about the cookie consent. Did the user accept, decline, or customize the cookie consent?
+            <br>
+            There is a way to "intercept" the user's choice. All you have to do is to start with this code and write your own logic:
+            <code><pre>
+document.addEventListener('cookiebarConsent', (e) => {
+console.log(e.detail.consent);
+});</pre></code>
+            The code above will asynchronously subscribe to the <code>cookiebarConsent</code> event, logging the user's choice in the console.
+            <br>
+            The <code>cookiebarConsent</code> event will contain one of the following values:
+            <ul>
+                <li><code style="font-style: italic;">CookieAllowed</code>: The user agreed to accept cookies;</li>
+                <li><code style="font-style: italic;">CookieDisallowed</code>: The user refused cookies;</li>
+                <li><code style="font-style: italic;">CookieCustomized</code>: The user customized the cookie consent.</li>
+            </ul>
+        </p>
+
+        <div class='hidden configuratorBaseUrlOpen'><span style='color:#905;'>&lt;script</span> <span style='color:#690'>type=</span>&quot;text/javascript&quot; <span style='color:#690'>src=</span>&quot;</div>
+        <div class='hidden configuratorBaseUrl'>https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js</div>
+        <div class='hidden configuratorBaseUrlClose'>&quot;<span style='color:#905;'>&gt;&lt;/script&gt;</span></div>
+    </div>
+</div>

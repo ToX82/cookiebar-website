@@ -1,0 +1,82 @@
+<div id="cookiebar" class="col s12 m10 offset-m1">
+    <div class="section">
+        <a id="how-it-works"></a>
+        <h5>How it works</h5>
+
+        <p>cookieBAR is drop-in and forget. Written in vanilla Javascript code, no jQuery or other dependencies are required. It shows up when needed and stays silent when not: If a website has some cookies or localStorage data set, then the bar is shown, otherwise nothing happens. This is configurable, anyway.</p>
+
+        <p>Once the user clicks 'Allow Cookies', cookieBAR will set a cookie for that domain with the name 'cookiebar' that will expire in 30 days. What this means is that the plugin will only show up once per domain (per month).</p>
+
+        <p>If a user decides to click "Disallow Cookies", cookieBAR will remove all the cookies and localStorage data (but it will show up again the first time a cookie is detected).</p>
+
+        <p>Please note that the cookieBAR itself (or similar solutions) can't deal with external services, secure or HTTP-only cookies. You will probably need to deal with them preventively. Please read more about the preventive block <a class="tabopener" href="https://cookie-bar.eu/#preventive-block">here</a>.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section">
+        <a id="why-did-i-wrote-this"></a>
+        <h5>Why did I write this?</h5>
+        <p>Because I needed it. I got the idea from <a href="http://permissionbar.com/">Studio NEC's permissionbar</a>, which was beautiful, but I needed something more configurable, multilingual and not dependent upon jQuery or any other Javascript framework. So I forked the original project on GitHub and started to add what I needed, concluding with a pull-request whose code was completely rewritten. Sadly, the original project seems to have stopped, and nobody has probably even seen my modifications. Several months later, I decided to add even more things and to give this plugin a place to be, which is why it became cookieBAR.
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section">
+        <a id="languages"></a>
+        <h5>How many languages are supported?</h5>
+        <p>Currently, the supported languages for cookieBAR are:</p>
+        <ul class="browser-default">
+            <li>Bulgarian</li>
+            <li>Brazilian portuguese</li>
+            <li>Catalan</li>
+            <li>Czech</li>
+            <li>Danish</li>
+            <li>Dutch</li>
+            <li>English</li>
+            <li>Estonian</li>
+            <li>Finnish</li>
+            <li>French</li>
+            <li>German</li>
+            <li>Greek</li>
+            <li>Hungarian</li>
+            <li>Italian</li>
+            <li>Norwegian</li>
+            <li>Occitan</li>
+            <li>Polish</li>
+            <li>Portuguese</li>
+            <li>Romanian</li>
+            <li>Russian</li>
+            <li>Slovak</li>
+            <li>Slovenian</li>
+            <li>Spanish</li>
+            <li>Swedish</li>
+            <li>Swedish</li>
+        </ul>
+        <p>The user's language is automatically detected by the browser, but you can force a specific language by passing an optional parameter (see <a class="tabopener" href="#configuration">Configuration</a>).</p>
+        <p>If you want to help me with the translations or add another language, please fork my <a href="https://github.com/ToX82/cookie-bar">Github</a> repository and make a pull request with your additions.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section">
+        <a id="instructions"></a>
+        <h5>Installation</h5>
+
+        <p>You have at least three options if you decide to give cookieBAR a try:</p>
+        <ul class="browser-default">
+            <li>The easy-peasy (and probably better) one: grab the code in the "Configuration" page and use the hosted version</li>
+            <li>Or, you can self-host it by yourself:
+                <ol>
+                    <li>Checkout the <a href="https://github.com/ToX82/cookie-bar">Github</a> repository and place it somewhere in a folder within your website or your server. All of the files, including images and stylesheets, need to maintain it's relative structure - that is be in the same directory - for the plugin to work correctly.</li>
+                    <li>Grab the code you will find below and adjust the path.</li>
+                </ol>
+            </li>
+            <li>
+                If you use npm, you can even install the cookieBAR with a simple <code class="purple-text">npm -i cookie-bar</code>.
+            </li>
+        </ul>
+
+        <h6>If you need to add some configuration to it, please use the configurator below.</h6>
+    </div>
+</div>

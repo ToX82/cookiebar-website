@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>cookieBAR - A free and easy cookie law plugin</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="cookieBAR is a free and easy solution to the EU cookie law. Paste one line of script tag and you're done. Even a kid could install it.">
+    <meta name="keywords" content="cookie,localstorage,law,plugin,script,javascript,jquery,easy,solution">
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1/dist/css/materialize.min.css">
+
+    <script>
+        // Set current year and check environment
+        const year = new Date().getFullYear();
+        const isLocalhost = window.location.hostname === 'localhost';
+
+        // Set Last-Modified header
+        const lastModified = new Date(document.lastModified).toUTCString();
+        document.lastModified = lastModified;
+
+        // Handle URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        let params = urlParams.toString();
+        params = params.replace(/[^a-z0-9\-\.\:\/%&=]/gi, '');
+
+        // Set default 'always' parameter if no params exist
+        if (params === '') {
+            urlParams.set('always', '1');
+            params = "always=1";
+        }
+
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = isLocalhost ? 'style.css' : 'style.min.css';
+        document.head.appendChild(cssLink);
+
+        let cookieBarLink = isLocalhost ? '../cookiebar/cookiebar-latest.js' : 'https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js';
+        let cookieBarPreviewLink = 'https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js';
+        cookieBarLink += '?' + params;
+        cookieBarPreviewLink += '?' + params;
+
+        // Add JS files after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const jsLink = document.createElement('script');
+            jsLink.src = isLocalhost ? 'script.js' : 'script.min.js';
+            document.body.appendChild(jsLink);
+        });
+    </script>
+
+    <script type="application/ld+json">
+        [
+            {
+                "@context": "http://schema.org",
+                "@type": "SoftwareApplication",
+                "applicationCategory": "http://schema.org/OtherApplication",
+                "name": "cookieBAR",
+                "description": "a free &amp; easy solution to the EU cookie law.",
+                "softwareVersion": "1.10.1",
+                "downloadUrl": "https:\/\/cookie-bar.eu\/#installation",
+                "operatingSystem": "Web Browser",
+                "url": "https://cookie-bar.eu",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0.00",
+                    "priceCurrency": "EUR",
+                    "seller": {
+                        "@type": "Organization",
+                        "name": "cookie-bar.eu",
+                        "url": "https://cookie-bar.eu"
+                    }
+                }
+            }
+        ]
+    </script>
+
+
+</head>
+<body>
+    <div class="main container z-depth-5">
+
+        <div class="section">
+            <div class="row header">
+                <h1>
+                    <a href='./'><img src="logo_big.png" alt="cookieBAR" width="247" height="64" /></a>
+                </h1>
+                <p>a free &amp; easy solution to the EU cookie law.</p>
+            </div>
+            <a id="why-use-cookiebar"></a>
+            <h5>Why cookieBAR?</h5>
+            <p>There is a lot of mystery and fuss surrounding the EU cookie legislation, but it's essentially really simple. Cookies are files used to track site activity and most websites use them. Site owners need to make the use of cookies very obvious to visitors.</p>
+            <p>cookieBAR makes it simple and clear to visitors that cookies are in use and tells them how to adjust their browser settings if they are concerned.</p>
+
+            <div class="row">
+                <div class="col s12">
+                    <div class="card-panel grey lighten-2">
+                        <span class="grey-text text-darken-3">
+                            <span class="badge blue white-text">TIP</span> If you want to give the user the possibility to block the cookies again, thus showing the cookiebar, you can add this link somewhere on your page.
+                            <code><pre><span style='color:#905;'>&lt;a</span> <span style='color:#690'>href=</span><span style='color:#07a'>"#"</span> <span style='color:#690'>onclick=</span><span style='color:#07a'>"document.cookie='cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/'; setupCookieBar(); return false;"</span><span style='color:#905'>&gt;</span>Click here to revoke the Cookie consent<span style='color:#905'>&lt;/a&gt;</span></pre></code>
+                            Test: <a href="#" onclick="document.cookie='cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/'; setupCookieBar(); return false;">Click here to revoke the Cookie consent</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="section row">
+            <br><div class="divider"></div><br>
+
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab"><a href="#configuration" hx-get="./tabs/configuration.html" hx-target="#tab-content" hx-swap="innerHTML">Configuration</a></li>
+                    <li class="tab"><a href="#cookiebar" hx-get="./tabs/cookiebar.html" hx-target="#tab-content" hx-swap="innerHTML">About</a></li>
+                    <li class="tab"><a href="#news" hx-get="./tabs/news.html" hx-target="#tab-content" hx-swap="innerHTML">News</a></li>
+                    <li class="tab"><a href="#preventive-block" hx-get="./tabs/preventive-block.html" hx-target="#tab-content" hx-swap="innerHTML">Preventive block</a></li>
+                    <li class="tab"><a href="#logging" hx-get="./tabs/logging.html" hx-target="#tab-content" hx-swap="innerHTML">Logging</a></li>
+                    <li class="tab"><a href="#legal-notes" hx-get="./tabs/legal-notes.html" hx-target="#tab-content" hx-swap="innerHTML">Legal notes</a></li>
+                    <li class="tab"><a href="#contributors" hx-get="./tabs/contributors.html" hx-target="#tab-content" hx-swap="innerHTML">Contributors</a></li>
+                </ul>
+            </div>
+
+            <br><br><br><div class="divider"></div><br>
+
+            <div id="tab-content" class="col s12 m10 offset-m1"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section">
+            <a id="disclaimer"></a>
+            <h5>Disclaimer</h5>
+            <p>This program is free software. It comes without any warranty, to the extent permitted by applicable law. Use it at your own risk and double check your local laws before using it.</p>
+        </div>
+    </div>
+
+
+    <footer class="page-footer blue-grey darken-3">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">cookieBAR</h5>
+                    <div class="grey-text text-lighten-4">
+                        I hope that you will try and enjoy cookieBAR as much as I did writing it. If so, please drop me a line at <a class="blue-text text-lighten-3" href="http://emanuele.itoscano.com/nodes/view/63_contacts">my website</a>. If cookieBAR has been really useful to you, please consider making a small donation as a token of your appreciation and to help me keep this up :)
+
+                        <br>
+                        <ul class="collapsible popout grey-text text-darken-3" data-collapsible="accordion">
+                            <li>
+                                <div class="collapsible-header">Donate with PayPal</div>
+                                <div class="collapsible-body grey lighten-3 center-align">
+                                    Please click the button to donate with PayPal
+                                    <br><br>
+                                    <a href="https://paypal.me/EmanueleToscano" alt='thanks!' class='tooltipped' data-position='top' data-tooltip='Thank you for your support. I really, really appreciate that.'>
+                                        <img alt="" src="paypal.png">
+                                    </a>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="collapsible-header">Donate with Bitcoin</div>
+                                <div class="collapsible-body grey lighten-3 center-align">
+                                    Please donate Bitcoins to:
+                                    <br><br>
+                                    <strong class='tooltipped' data-position='top' data-tooltip='Thank you for your support. I really, really appreciate that.'>bc1qjky8rwkjg33edd503zhvyq837rs5dw4n65fep0</strong>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="https://github.com/ToX82/cookie-bar">GitHub repository</a></li>
+                        <li><a class="grey-text text-lighten-3" href="https://www.linkedin.com/in/emanueletoscano/en">My Linkedin page</a></li>
+                        <li><a class="grey-text text-lighten-3" href="http://emanuele.itoscano.com">Random stuff on my website</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright blue-grey darken-4">
+            <div class="container">
+                © <script>document.write(year)</script> Emanuele "ToX" Toscano
+                - <a class="grey-text text-lighten-3" href='privacy/'>Privacy policy</a>
+
+                <span class="right">P.IVA 03218180044</span>
+            </div>
+        </div>
+    </footer>
+
+<script>
+if (document.cookie.match(/cookiebar=CookieAllowed/)) {
+    // AddThis widget
+    let addthisScript = document.createElement('script');
+    addthisScript.src = '//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5571f1ac18f4dec2';
+    addthisScript.async = true;
+    document.body.appendChild(addthisScript);
+
+    // Tawk.to widget
+    var Tawk_API = Tawk_API || {};
+    Tawk_LoadStart = new Date();
+    (function() {
+        var s1 = document.createElement("script");
+        var s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/56dd3faefd8c93706673ec32/default';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
+    })();
+} else {
+    const chatDiv = document.createElement('div');
+    chatDiv.className = 'accept_to_chat';
+    chatDiv.textContent = 'Need support? Please accept cookies and refresh the page :-)';
+    document.body.appendChild(chatDiv);
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/materialize-css@1/dist/js/materialize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htmx.org@1/dist/htmx.min.js"></script>
+
+<script>
+document.write('<script src="' + cookieBarLink + '?' + params + '"><\/script>');
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const hash = window.location.hash;
+        let defaultTab = './tabs/configuration.html';
+        let tabToSelect = '#configuration';
+        let tabToLoad = defaultTab;
+
+        if (hash) {
+            const tabName = hash.substring(1); // Rimuove il # iniziale
+            // Verifica che il tab richiesto esista
+            const validTabs = ['configuration', 'preventive-block', 'contributors', 'logging', 'legal-notes', 'news'];
+            if (validTabs.includes(tabName)) {
+                tabToLoad = `./tabs/${tabName}.html`;
+                tabToSelect = hash;
+            }
+        }
+
+        // Carica il contenuto del tab
+        htmx.ajax('GET', tabToLoad, {
+            target: '#tab-content',
+            swap: 'innerHTML'
+        });
+
+        // Seleziona il tab corretto
+        const tabElement = document.querySelector(`a[href="${tabToSelect}"]`);
+        if (tabElement) {
+            tabElement.click();
+        }
+
+        if (tabToSelect === '#configuration') {
+            document.body.addEventListener('htmx:afterSwap', function(evt) {
+                reloadConfig();
+            });
+        }
+
+    });
+
+    function reloadConfig() {
+        const hash = window.location.hash;
+        const tabName = hash.substring(1);
+
+        if (tabName !== 'configuration') {
+            return;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Imposta i valori dei campi in base ai parametri URL
+        document.getElementById('forceLang').value = urlParams.get('forceLang') || '';
+        document.getElementById('theme').value = urlParams.get('theme') || '';
+        document.getElementById('customize').checked = urlParams.has('customize');
+        document.getElementById('tracking').checked = urlParams.has('tracking');
+        document.getElementById('thirdparty').checked = urlParams.has('thirdparty');
+        document.getElementById('always').checked = urlParams.has('always');
+        document.getElementById('noGeoIp').checked = urlParams.has('noGeoIp');
+        document.getElementById('scrolling').checked = urlParams.has('scrolling');
+        document.getElementById('refreshPage').checked = urlParams.has('refreshPage');
+        document.getElementById('top').checked = urlParams.has('top');
+        document.getElementById('showNoConsent').checked = urlParams.has('showNoConsent');
+        document.getElementById('noConfirm').checked = urlParams.has('noConfirm');
+        document.getElementById('hideDetailsBtn').checked = urlParams.has('hideDetailsBtn');
+        document.getElementById('showPolicyLink').checked = urlParams.has('showPolicyLink');
+        document.getElementById('blocking').checked = urlParams.has('blocking');
+        document.getElementById('remember').value = urlParams.get('remember') || '';
+        document.getElementById('privacyPage').value = urlParams.get('privacyPage') || '';
+
+        document.getElementById('remember').dispatchEvent(new Event('focus'));
+        document.getElementById('privacyPage').dispatchEvent(new Event('focus'));
+        document.getElementById('remember').dispatchEvent(new Event('blur'));
+        document.getElementById('privacyPage').dispatchEvent(new Event('blur'));
+    }
+</script>
+
+</body>
+</html>
