@@ -73,4 +73,6 @@ $(document).ready(function() {
     $('code').on('click', function() {
         $(this).selectText();
     });
+
+    window.reconfigure = reconfigure;
 });
