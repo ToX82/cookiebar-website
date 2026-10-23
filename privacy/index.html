@@ -7,6 +7,7 @@
     <meta name="description" content="cookieBAR is a free and easy solution to the EU cookie law. Paste one line of script tag and you're done. Even a kid could install it.">
     <meta name="keywords" content="cookie,localstorage,law,plugin,javascript,jquery,easy,solution">
 
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0-rc.1/dist/css/materialize.min.css">
     <link rel="stylesheet" href="../style.min.css">
 </head>
@@ -66,7 +67,9 @@
             <script>
             const cookies = document.cookie.split(';').reduce((acc, cookie) => {
                 const [name, value] = cookie.trim().split('=');
-                acc[name] = value;
+                if (name) {
+                    acc[name] = value;
+                }
                 return acc;
             }, {});
 
@@ -80,13 +83,18 @@
                 li.appendChild(a);
                 document.getElementById('cookies-list').appendChild(li);
             });
+
+            if (Object.keys(cookies).length === 0) {
+                const li = document.createElement('li');
+                li.textContent = 'Nessun cookie in uso al momento.';
+                document.getElementById('cookies-list').appendChild(li);
+            }
             </script>
             </ul>
 
             <strong>Servizi di terze parti che potrebbero essere utilizzati in questo sito e che potrebbero utilizzare cookies:</strong>
             <ul>
                 <li style='display:none;'><a href='http://whos.amung.us/legal/privacy/'>whos.amung.us</a></li>
-                <li><a href='http://www.addthis.com/privacy/privacy-policy'>Addthis</a> (<a href='http://www.addthis.com/privacy/opt-out'>Opt-out</a>)</li>
                 <li><a href='https://www.tawk.to/privacy-policy/'>Tawk.to</a></li>
 
                 <li style='display:none;'><a href='https://www.facebook.com/privacy/explanation'>Facebook</a></li>
@@ -134,13 +142,10 @@
                                 <div class="collapsible-header">Donate with PayPal</div>
                                 <div class="collapsible-body grey lighten-3 center-align">
                                     Please click the button to donate with PayPal
-                                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                                    <input type="hidden" name="cmd" value="_s-xclick">
-                                    <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHTwYJKoZIhvcNAQcEoIIHQDCCBzwCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYC+ZR+Y8BmdbLbbm3YmQq//LfZJ+ElLq0+Shb5r3qonNKHe+/h9zhpnUbHtgZmqN6kTewx9XDwNzwlyKHnCIlbUYM2cP2c4LmyWeuRZ5Uq0ITdhyXzhA6NG3ZLAqC4XQ4bCDLm30IyLJSutY8rP6JopJSxzPO6W12pYuGZzCmYq5zELMAkGBSsOAwIaBQAwgcwGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIKu1xv6L0wyaAgag1UD1hgJ/eGuWXRsxD9dnPVKQJkzBYOS4RXDYi4LzehvX7QZ4yX5t5ALudJScu7lcPo5tJeSmbv2TKcxqtOf/KtRlifLvxggdNzhkiUPlZLO6ji/W1md8F11th+gV9z5JhttiKQFaqvXS9PgSzluKACW9ntBPPf5DFMOIES8CGUbWLiHOzftC1VgYZOzb4046AEOcEM8fDX0Smn51dXEm9KOHhjlXtIaCgggOHMIIDgzCCAuygAwIBAgIBADANBgkqhkiG9w0BAQUFADCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wHhcNMDQwMjEzMTAxMzE1WhcNMzUwMjEzMTAxMzE1WjCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMFHTt38RMxLXJyO2SmS+Ndl72T7oKJ4u4uw+6awntALWh03PewmIJuzbALScsTS4sZoS1fKciBGoh11gIfHzylvkdNe/hJl66/RGqrj5rFb08sAABNTzDTiqqNpJeBsYs/c2aiGozptX2RlnBktH+SUNpAajW724Nv2Wvhif6sFAgMBAAGjge4wgeswHQYDVR0OBBYEFJaffLvGbxe9WT9S1wob7BDWZJRrMIG7BgNVHSMEgbMwgbCAFJaffLvGbxe9WT9S1wob7BDWZJRroYGUpIGRMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbYIBADAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAIFfOlaagFrl71+jq6OKidbWFSE+Q4FqROvdgIONth+8kSK//Y/4ihuE4Ymvzn5ceE3S/iBSQQMjyvb+s2TWbQYDwcp129OPIbD9epdr4tJOUNiSojw7BHwYRiPh58S1xGlFgHFXwrEBb3dgNbMUa+u4qectsMAXpVHnD9wIyfmHMYIBmjCCAZYCAQEwgZQwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tAgEAMAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0xNTAzMTYxMDQ2MzRaMCMGCSqGSIb3DQEJBDEWBBRJygLpbDzWj8+C6LNleOKoDqJuFDANBgkqhkiG9w0BAQEFAASBgD3HShvjYnN8J11NnZJhXWoyAnddJINVYTt5uaLymXRHMgCrTF/JSIl/BDP7a8yexcjwcwPVvFVI4kGw1wK3nO8qOwpxAcB7lJArTQ1DTlkPjLayINhCXrz96ES4g4WIH7o41q/DOP1bN0mMgvgg2n2pBYKEl8xVa2T/DKWLrddI-----END PKCS7-----
-                                    ">
-                                    <input alt='thanks!' class='tooltipped' data-position='top' data-tooltip='Thank you for your support. I really, really appreciate that.' type="image" src="paypal.png" name="submit">
-                                    <img alt="" src="paypal_pixel.gif">
-                                    </form>
+                                    <br><br>
+                                    <a href="https://paypal.me/EmanueleToscano" alt='thanks!' class='tooltipped' data-position='top' data-tooltip='Thank you for your support. I really, really appreciate that.'>
+                                        <img alt="" src="../paypal.png">
+                                    </a>
                                 </div>
                             </li>
 
@@ -149,7 +154,7 @@
                                 <div class="collapsible-body grey lighten-3 center-align">
                                     Please donate Bitcoins to:
                                     <br><br>
-                                    <strong class='tooltipped' data-position='top' data-tooltip='Thank you for your support. I really, really appreciate that.'>168uVh3cg4j5ZDi6E8Y7t9zG9uQeH4JtPR</strong>
+                                    <strong class='tooltipped' data-position='top' data-tooltip='Thank you for your support. I really, really appreciate that.'>bc1qjky8rwkjg33edd503zhvyq837rs5dw4n65fep0</strong>
                                 </div>
                             </li>
                         </ul>
@@ -179,6 +184,13 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0-rc.1/dist/js/materialize.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js&always=1"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        M.Collapsible.init(document.querySelectorAll('.collapsible'));
+        M.Tooltip.init(document.querySelectorAll('.tooltipped'));
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?always=1"></script>
 </body>
 </html>

@@ -124,7 +124,7 @@ ul.list li {
     background-color: #3498db;
 }
 /* Inputs */
-.input-field label {
+.input-field label, #configuration form [type="checkbox"] + span {
     color: #3498db;
 }
 .dropdown-content li>a, .dropdown-content li>span {
@@ -141,5 +141,44 @@ ul.list li {
     }
     .accept_to_chat {
         display: none;
+    }
+}
+/* Avviso cookieBAR nascosta */
+.consentNotice {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+.consentNotice.hidden {
+    display: none;
+}
+
+/* I tab vanno a capo invece di scorrere, così sono sempre tutti visibili */
+.tabs {
+    display: flex;
+    height: auto;
+    flex-wrap: wrap;
+    white-space: normal;
+    overflow: visible;
+}
+.tabs .tab {
+    flex-grow: 1;
+}
+.tabs .tab a {
+    padding: 0 12px;
+}
+.tabs .tab a.active {
+    box-shadow: inset 0 -2px 0 #3498db;
+}
+.tabs .indicator {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .main {
+        width: 95%;
+        padding: 15px;
     }
 }

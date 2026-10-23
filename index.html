@@ -12,23 +12,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1/dist/css/materialize.min.css">
 
     <script>
-        // Set current year and check environment
         const year = new Date().getFullYear();
-        const isLocalhost = window.location.hostname === 'localhost';
+        const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
-        // Set Last-Modified header
-        const lastModified = new Date(document.lastModified).toUTCString();
-        document.lastModified = lastModified;
-
-        // Handle URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        let params = urlParams.toString();
-        params = params.replace(/[^a-z0-9\-\.\:\/%&=]/gi, '');
-
-        // Set default 'always' parameter if no params exist
+        // Query string sanitizzata: viene passata così com'è allo script della cookiebar
+        let params = window.location.search.substring(1).replace(/[^a-z0-9\-\.\:\/%&=]/gi, '');
         if (params === '') {
-            urlParams.set('always', '1');
-            params = "always=1";
+            // Il parametro always è preimpostato di default
+            params = 'always=1';
         }
 
         const cssLink = document.createElement('link');
@@ -36,17 +27,9 @@
         cssLink.href = isLocalhost ? 'style.css' : 'style.min.css';
         document.head.appendChild(cssLink);
 
-        let cookieBarLink = isLocalhost ? '../cookiebar/cookiebar-latest.js' : 'https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js';
-        let cookieBarPreviewLink = 'https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js';
-        cookieBarLink += '?' + params;
-        cookieBarPreviewLink += '?' + params;
-
-        // Add JS files after DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            const jsLink = document.createElement('script');
-            jsLink.src = isLocalhost ? 'script.js' : 'script.min.js';
-            document.body.appendChild(jsLink);
-        });
+        const scriptLink = isLocalhost ? 'script.js' : 'script.min.js';
+        // Nella demo la geolocalizzazione è sempre saltata, così la barra si vede ovunque
+        const cookieBarLink = (isLocalhost ? '../cookiebar/cookiebar-latest.js' : 'https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js') + '?' + params + (/(^|&)noGeoIp=/.test(params) ? '' : '&noGeoIp=1');
     </script>
 
     <script type="application/ld+json">
@@ -98,7 +81,7 @@
                         <span class="grey-text text-darken-3">
                             <span class="badge blue white-text">TIP</span> If you want to give the user the possibility to block the cookies again, thus showing the cookiebar, you can add this link somewhere on your page.
                             <code><pre><span style='color:#905;'>&lt;a</span> <span style='color:#690'>href=</span><span style='color:#07a'>"#"</span> <span style='color:#690'>onclick=</span><span style='color:#07a'>"document.cookie='cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/'; setupCookieBar(); return false;"</span><span style='color:#905'>&gt;</span>Click here to revoke the Cookie consent<span style='color:#905'>&lt;/a&gt;</span></pre></code>
-                            Test: <a href="#" onclick="document.cookie='cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/'; setupCookieBar(); return false;">Click here to revoke the Cookie consent</a>
+                            Test: <a href="#" class="consentNoticeShow">Click here to revoke the Cookie consent</a>
                         </span>
                     </div>
                 </div>
@@ -111,19 +94,535 @@
 
             <div class="col s12">
                 <ul class="tabs">
-                    <li class="tab"><a href="#configuration" hx-get="./tabs/configuration.html" hx-target="#tab-content" hx-swap="innerHTML">Configuration</a></li>
-                    <li class="tab"><a href="#cookiebar" hx-get="./tabs/cookiebar.html" hx-target="#tab-content" hx-swap="innerHTML">About</a></li>
-                    <li class="tab"><a href="#news" hx-get="./tabs/news.html" hx-target="#tab-content" hx-swap="innerHTML">News</a></li>
-                    <li class="tab"><a href="#preventive-block" hx-get="./tabs/preventive-block.html" hx-target="#tab-content" hx-swap="innerHTML">Preventive block</a></li>
-                    <li class="tab"><a href="#logging" hx-get="./tabs/logging.html" hx-target="#tab-content" hx-swap="innerHTML">Logging</a></li>
-                    <li class="tab"><a href="#legal-notes" hx-get="./tabs/legal-notes.html" hx-target="#tab-content" hx-swap="innerHTML">Legal notes</a></li>
-                    <li class="tab"><a href="#contributors" hx-get="./tabs/contributors.html" hx-target="#tab-content" hx-swap="innerHTML">Contributors</a></li>
+                    <li class="tab"><a href="#configuration">Configuration</a></li>
+                    <li class="tab"><a href="#cookiebar">About</a></li>
+                    <li class="tab"><a href="#news">News</a></li>
+                    <li class="tab"><a href="#preventive-block">Preventive block</a></li>
+                    <li class="tab"><a href="#logging">Logging</a></li>
+                    <li class="tab"><a href="#legal-notes">Legal notes</a></li>
+                    <li class="tab"><a href="#contributors">Contributors</a></li>
                 </ul>
             </div>
 
             <br><br><br><div class="divider"></div><br>
 
-            <div id="tab-content" class="col s12 m10 offset-m1"></div>
+            <div id="configuration" class="col s12 m10 offset-m1">
+                <div class="section">
+                    <h5>Configurator</h5>
+                    <p class="blue-grey-text text-darken-3">Every change is applied immediately to the cookieBAR shown on this page, so you can see how it will look on your website.</p>
+
+                    <div class="card-panel amber lighten-4 consentNotice hidden">
+                        <span class="consentNoticeText"></span>
+                        <a href="#" class="consentNoticeShow btn-small blue darken-3 waves-effect waves-light">Show the cookieBAR again</a>
+                    </div>
+
+                    <div class="row">
+                    <form class="col s12">
+                            <div class="row">
+                                <div class="col s12 m6">
+                                    <label for='forceLang'>Use language autodetection or force a specific language</label>
+                                    <select class='configurator' id='forceLang'>
+                                        <option value=''>Autodetect</option>
+                                        <option value='br'>Brazilian portuguese</option>
+                                        <option value='bg'>Bulgarian</option>
+                                        <option value='ca'>Catalan</option>
+                                        <option value='hr'>Croatian</option>
+                                        <option value='cs'>Czech</option>
+                                        <option value='da'>Danish</option>
+                                        <option value='nl'>Dutch</option>
+                                        <option value='en'>English</option>
+                                        <option value='et'>Estonian</option>
+                                        <option value='fi'>Finnish</option>
+                                        <option value='fr'>French</option>
+                                        <option value='de'>German</option>
+                                        <option value='el'>Greek</option>
+                                        <option value='hu'>Hungarian</option>
+                                        <option value='it'>Italian</option>
+                                        <option value='no'>Norwegian</option>
+                                        <option value='oc'>Occitan</option>
+                                        <option value='pl'>Polish</option>
+                                        <option value='pt'>Portuguese</option>
+                                        <option value='ro'>Romanian</option>
+                                        <option value='ru'>Russian</option>
+                                        <option value='sk'>Slovak</option>
+                                        <option value='sl'>Slovenian</option>
+                                        <option value='es'>Spanish</option>
+                                        <option value='se'>Swedish</option>
+                                        <option value='tr'>Turkish</option>
+                                        <option value='uk'>Ukrainian</option>
+                                    </select>
+                                </div>
+                                <div class="col s12 m6">
+                                    <label for='theme'>Choose a theme</label>
+                                    <select class='configurator' id='theme'>
+                                        <option value=''>Default (black)</option>
+                                        <option value='altblack'>Alternative black</option>
+                                        <option value='momh'>Momh</option>
+                                        <option value='flying'>FlyingBAR</option>
+                                        <option value='grey'>Plain grey</option>
+                                        <option value='white'>Thick white</option>
+                                        <option value='minimal'>Minimal white</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <label for='customize'>
+                                        <input type='checkbox' class='configurator validate' id='customize' value='1'>
+                                        <span>Let the users customize their cookie preferences (technical, third party, tracking)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <label for='tracking'>
+                                        <input type='checkbox' class='configurator validate' id='tracking' value='1'>
+                                        <span>The website uses tracking cookies</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <label for='thirdparty'>
+                                        <input type='checkbox' class='configurator validate' id='thirdparty' value='1'>
+                                        <span>The website uses third party cookies</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <label for='always'>
+                                        <input type='checkbox' class='configurator validate' id='always' value='1'>
+                                        <span>Always show cookieBAR (show cookieBAR even if no cookies are detected)</span><span class="badge orange white-text tooltipped" data-tooltip="The cookieBAR has the possibility to stay silent if there are no javascript readable cookies or localstorage.<br>This could be an issue if you have non HTTP or SECURE cookies, which are not detectable by Javascript.<br><br>If unsure, keep this checkbox checked :)">READ ME</span></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <label for='noGeoIp'>
+                                        <input type='checkbox' class='configurator validate' id='noGeoIp' value='1'>
+                                        <span>No GeoIP lookup (show cookieBAR regardless of the user's location)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <label for='scrolling'>
+                                        <input type='checkbox' class='configurator validate' id='scrolling' value='1'>
+                                        <span>Accept cookies by scrolling window</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <label for='refreshPage'>
+                                        <input type='checkbox' class='configurator validate' id='refreshPage' value='1'>
+                                        <span>Refresh page on CookieAllowed</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <label for='top'>
+                                        <input type='checkbox' class='configurator validate' id='top' value='1'>
+                                        <span>Show cookieBAR on top</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <label for='showNoConsent'>
+                                        <input type='checkbox' class='configurator validate' id='showNoConsent' value='1'>
+                                        <span>Show DENY button</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <label for='noConfirm'>
+                                        <input type='checkbox' class='configurator validate' id='noConfirm' value='1'>
+                                        <span>Don't show the confirmation dialog when a user clicks on the DENY button</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <label for='hideDetailsBtn'>
+                                        <input type='checkbox' class='configurator validate' id='hideDetailsBtn' value='1'>
+                                        <span>Hide the "Details" button from the main bar</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <label for='showPolicyLink'>
+                                        <input type='checkbox' class='configurator validate' id='showPolicyLink' value='1'>
+                                        <span>Show the policy page link in the main bar <small>(you must specify the URL of your custom Privacy Page)</small>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <label for='blocking'>
+                                        <input type='checkbox' class='configurator validate' id='blocking' value='1'>
+                                        <span>Blocking (forces a user to select whether to accept or decline cookies)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="input-field col s12 m5">
+                                    <input type='text' class='configurator validate' id='remember' placeholder='30 (default)'>
+                                    <label for='remember'>Remember choice for X days</label>
+                                </div>
+
+                                <div class="input-field col s12 m7">
+                                    <input type='text' class='configurator validate' id='privacyPage'>
+                                    <label for='privacyPage'>URL of your custom Privacy Page</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <p class="blue-grey-text text-darken-3">When you are satisfied with the look and feel of the cookieBAR, just paste the following script tag into your website. That's it!</p>
+                    <pre class="z-depth-1"><code class="language-markup configuratorTag"><span style='color:#905;'>&lt;script</span> <span style='color:#690'>type=</span>&quot;text/javascript&quot; <span style='color:#690'>src=</span>&quot;#preview#&quot;<span style='color:#905;'>&gt;&lt;/script&gt;</span></code></pre>
+
+                    <p>Please note: If you select an option with the "NEW" tag, and you see it's not working on your website, please wait for a few
+                        days before reporting it: the changes may still be propagating through the CDN and should be visible in a maximum of 10 days.</p>
+
+
+                    <hr>
+                    <h3><span class="badge red white-text">NEW v.1.10.0</span>Custom events</h3>
+                    <p>
+                        Advanced users might want to track the user's choice about the cookie consent. Did the user accept, decline, or customize the cookie consent?
+                        <br>
+                        There is a way to "intercept" the user's choice. All you have to do is to start with this code and write your own logic:
+                        <code><pre>
+            document.addEventListener('cookiebarConsent', (e) => {
+            console.log(e.detail.consent);
+            });</pre></code>
+                        The code above will asynchronously subscribe to the <code>cookiebarConsent</code> event, logging the user's choice in the console.
+                        <br>
+                        The <code>cookiebarConsent</code> event will contain one of the following values:
+                        <ul>
+                            <li><code style="font-style: italic;">CookieAllowed</code>: The user agreed to accept cookies;</li>
+                            <li><code style="font-style: italic;">CookieDisallowed</code>: The user refused cookies;</li>
+                            <li><code style="font-style: italic;">CookieCustomized</code>: The user customized the cookie consent.</li>
+                        </ul>
+                    </p>
+
+                    <div class='hidden configuratorBaseUrlOpen'><span style='color:#905;'>&lt;script</span> <span style='color:#690'>type=</span>&quot;text/javascript&quot; <span style='color:#690'>src=</span>&quot;</div>
+                    <div class='hidden configuratorBaseUrl'>https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js</div>
+                    <div class='hidden configuratorBaseUrlClose'>&quot;<span style='color:#905;'>&gt;&lt;/script&gt;</span></div>
+                </div>
+            </div>
+
+            <div id="cookiebar" class="col s12 m10 offset-m1">
+                <div class="section">
+                    <a id="how-it-works"></a>
+                    <h5>How it works</h5>
+
+                    <p>cookieBAR is drop-in and forget. Written in vanilla Javascript code, no jQuery or other dependencies are required. It shows up when needed and stays silent when not: If a website has some cookies or localStorage data set, then the bar is shown, otherwise nothing happens. This is configurable, anyway.</p>
+
+                    <p>Once the user clicks 'Allow Cookies', cookieBAR will set a cookie for that domain with the name 'cookiebar' that will expire in 30 days. What this means is that the plugin will only show up once per domain (per month).</p>
+
+                    <p>If a user decides to click "Disallow Cookies", cookieBAR will remove all the cookies and localStorage data (but it will show up again the first time a cookie is detected).</p>
+
+                    <p>Please note that the cookieBAR itself (or similar solutions) can't deal with external services, secure or HTTP-only cookies. You will probably need to deal with them preventively. Please read more about the preventive block <a class="tabopener" href="#preventive-block">here</a>.</p>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="section">
+                    <a id="why-did-i-wrote-this"></a>
+                    <h5>Why did I write this?</h5>
+                    <p>Because I needed it. I got the idea from <a href="http://permissionbar.com/">Studio NEC's permissionbar</a>, which was beautiful, but I needed something more configurable, multilingual and not dependent upon jQuery or any other Javascript framework. So I forked the original project on GitHub and started to add what I needed, concluding with a pull-request whose code was completely rewritten. Sadly, the original project seems to have stopped, and nobody has probably even seen my modifications. Several months later, I decided to add even more things and to give this plugin a place to be, which is why it became cookieBAR.
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="section">
+                    <a id="languages"></a>
+                    <h5>How many languages are supported?</h5>
+                    <p>Currently, the supported languages for cookieBAR are:</p>
+                    <ul class="browser-default">
+                        <li>Bulgarian</li>
+                        <li>Brazilian portuguese</li>
+                        <li>Catalan</li>
+                        <li>Czech</li>
+                        <li>Danish</li>
+                        <li>Dutch</li>
+                        <li>English</li>
+                        <li>Estonian</li>
+                        <li>Finnish</li>
+                        <li>French</li>
+                        <li>German</li>
+                        <li>Greek</li>
+                        <li>Hungarian</li>
+                        <li>Italian</li>
+                        <li>Norwegian</li>
+                        <li>Occitan</li>
+                        <li>Polish</li>
+                        <li>Portuguese</li>
+                        <li>Romanian</li>
+                        <li>Russian</li>
+                        <li>Slovak</li>
+                        <li>Slovenian</li>
+                        <li>Spanish</li>
+                        <li>Swedish</li>
+                        <li>Swedish</li>
+                    </ul>
+                    <p>The user's language is automatically detected by the browser, but you can force a specific language by passing an optional parameter (see <a class="tabopener" href="#configuration">Configuration</a>).</p>
+                    <p>If you want to help me with the translations or add another language, please fork my <a href="https://github.com/ToX82/cookie-bar">Github</a> repository and make a pull request with your additions.</p>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="section">
+                    <a id="instructions"></a>
+                    <h5>Installation</h5>
+
+                    <p>You have at least three options if you decide to give cookieBAR a try:</p>
+                    <ul class="browser-default">
+                        <li>The easy-peasy (and probably better) one: grab the code in the "Configuration" page and use the hosted version</li>
+                        <li>Or, you can self-host it by yourself:
+                            <ol>
+                                <li>Checkout the <a href="https://github.com/ToX82/cookie-bar">Github</a> repository and place it somewhere in a folder within your website or your server. All of the files, including images and stylesheets, need to maintain it's relative structure - that is be in the same directory - for the plugin to work correctly.</li>
+                                <li>Grab the code you will find below and adjust the path.</li>
+                            </ol>
+                        </li>
+                        <li>
+                            If you use npm, you can even install the cookieBAR with a simple <code class="purple-text">npm -i cookie-bar</code>.
+                        </li>
+                    </ul>
+
+                    <h6>If you need to add some configuration to it, please use the configurator below.</h6>
+                </div>
+            </div>
+
+            <div id="news" class="col s12 m10 offset-m1">
+                <div class="section">
+                    <a id="aggiornamenti"></a>
+                    <h5>News</h5>
+                    <ul>
+                        <li><strong>17.11.2022</strong> - 1.10.1: Changed the geolocation service.</li>
+                        <li><strong>17.10.2022</strong> - 1.10.0: Added the cookiebarConsent event listener.</li>
+                        <li><strong>02.08.2022</strong> - 1.9.4: Added Estonian translation.</li>
+                        <li><strong>12.08.2021</strong> - 1.9.0: Added "customize cookies" options.</li>
+                        <li><strong>12.08.2021</strong> - 1.8.4: Added Occitan translation.</li>
+                        <li><strong>01.02.2021</strong> - 1.8.3: Added Turkish translation.</li>
+                        <li><strong>17.12.2020</strong> - 1.8.2: Fixed broken safari link.</li>
+                        <li><strong>25.11.2020</strong> - 1.8.1: Updated Finnish translation.</li>
+                        <li><strong>19.11.2020</strong> - 1.8.0: Made the DENY confirmation alert optional.</li>
+                        <li><strong>28.08.2020</strong> - 1.7.13: Updated Catalan translation.</li>
+                        <li><strong>25.03.2020</strong> - 1.7.12: Added Croatian translation.</li>
+                        <li><strong>03.03.2020</strong> - 1.7.11: Updated PL, Added Norway to cookieLawStates.</li>
+                        <li><strong>08.02.2020</strong> - 1.7.10: Updated RU, DE translation.</li>
+                        <li><strong>09.07.2019</strong> - 1.7.9: Added BR translation, updated Danish, Czech, Hungarian translations.</li>
+                        <li><strong>14.03.2019</strong> - 1.7.6: Added Bulgarian translation.</li>
+                        <li><strong>04.03.2019</strong> - 1.7.6: Updated Romanian translation.</li>
+                        <li><strong>11.12.2018</strong> - 1.7.5: Added Norwegian and Finnish translations.</li>
+                        <li><strong>02.09.2018</strong> - 1.7.1: Fixed typo in Romanian translation.</li>
+                        <li><strong>06.08.2018</strong> - 1.7.0: New option: show the cookie policy link in the main bar.</li>
+                        <li><strong>30.07.2018</strong> - 1.6.4: New ICO link for english language, missing closing 'p' tags.</li>
+                        <li><strong>21.07.2018</strong> - 1.6.3: Added Greek translation.</li>
+                        <li><strong>12.07.2018</strong> - 1.6.2: Auto opt-in for non EEA users</li>
+                        <li><strong>12.07.2018</strong> - 1.6.1: Switched to freegeoip.app, new theme "momh"</li>
+                        <li><strong>20.06.2018</strong> - 1.6.0: All of the images are now css sprites. CSS moved in a themes folder. Code cleanup</li>
+                        <li><strong>16.06.2018</strong> - 1.5.36: Fixed bug in cookies detection</li>
+                        <li><strong>16.06.2018</strong> - 1.5.35: Switched from freegeoip to ipdata.co</li>
+                        <li><strong>16.06.2018</strong> - 1.5.34: Small corrections in ro.html</li>
+                        <li><strong>10.04.2018</strong> - 1.5.33: Updated version numbers, updated README.md, updated package.json</li>
+                        <li><strong>10.04.2018</strong> - 1.5.32: Small corrections in de.html</li>
+                        <li><strong>30.03.2018</strong> - 1.5.31: Switched to freegeoip.net.</li>
+                        <li><strong>19.02.2018</strong> - 1.5.30: Updated Dutch translation.</li>
+                        <li><strong>13.01.2018</strong> - 1.5.29: Added Russian translation.</li>
+                        <li><strong>11.09.2017</strong> - 1.5.28: Added package.json.</li>
+                        <li><strong>14.08.2017</strong> - 1.5.27: Updated Polish translation.</li>
+                        <li><strong>27.05.2017</strong> - 1.5.26: Bugfix in CSS - default theme.</li>
+                        <li><strong>05.05.2017</strong> - 1.5.25: Fixed Slovenian translation.</li>
+                        <li><strong>02.05.2017</strong> - 1.5.24: Added Polish translation.</li>
+                        <li><strong>27.04.2017</strong> - 1.5.23: Added Slovenian translation.</li>
+                        <li><strong>06.04.2017</strong> - 1.5.22: Modified GeoIP lookups, added "skip GeoIp" option, added "hide details" option, new "Flying" theme.</li>
+                        <li><strong>28.03.2017</strong> - 1.5.21: Added Swedish translation.</li>
+                        <li><strong>17.03.2017</strong> - 1.5.20: Fix loading of language files, fix invalid CSS in altblack css</li>
+                        <li><strong>25.11.2016</strong> - 1.5.19: Update nl.html</li>
+                        <li><strong>25.11.2016</strong> - 1.5.19: Update nl.html</li>
+                        <li><strong>12.10.2016</strong> - 1.5.18: Fixed typo in en.html, updated fr.html, added Slovak translation, added Czech translation.</li>
+                        <li><strong>02.10.2016</strong> - 1.5.17: Optionally refresh page on CookieAllowed.</li>
+                        <li><strong>30.06.2016</strong> - 1.5.16: Add Croatia to EU list.</li>
+                        <li><strong>19.05.2016</strong> - 1.5.15: Added Danish translation.</li>
+                        <li><strong>14.04.2016</strong> - 1.5.14: Switched from freegeoip.net to freegeoip.io.</li>
+                        <li><strong>05.04.2016</strong> - 1.5.13: Added Romanian translation.</li>
+                        <li><strong>13.03.2016</strong> - 1.5.12: Added "scroll window to confirm" option.</li>
+                        <li><strong>01.02.2016</strong> - 1.5.11: Minor enhancements.</li>
+                        <li><strong>28.12.2015</strong> - 1.5.10: Added Portuguese translation.</li>
+                        <li><strong>24.12.2015</strong> - 1.5.9: Added Catalan and Spanish translation.</li>
+                        <li><strong>20.12.2015</strong> - 1.5.8: Added Dutch translation.</li>
+                        <li><strong>10.12.2015</strong> - 1.5.7: Switched back to freegeoip.</li>
+                        <li><strong>03.11.2015</strong> - 1.5.6: Improved French translation.</li>
+                        <li><strong>19.09.2015</strong> - 1.5.5: Removed the 'http' prefix for telize api.</li>
+                        <li><strong>10.09.2015</strong> - 1.5.4: Switched from freegeoip to telize.</li>
+                        <li><strong>06.09.2015</strong> - 1.5.3: Added minified CSS and JS, set GB and not UK for the cookieLaw states, fixed a bug when hiding the bar (margins were not correctly reset).</li>
+                        <li><strong>04.08.2015</strong> - 1.5.2: Added Hungarian and German, better English translation. Some other minor fixes.</li>
+                        <li><strong>29.06.2015</strong> - 1.5.0: You can specify wether third party or tracking cookies are in use, the bar is shown only in the countries affected by this law.</li>
+                        <li><strong>30.05.2015</strong> - 1.4.0: Show cookieBAR even when no cookies nor localStorage is detected (always show), added a "remember choice" duration config.</li>
+                        <li><strong>27.05.2015</strong> - 1.3.0: Both bar and modal box are now themeable. If you want to use your own theme, make a pull request on GitHub.</li>
+                        <li><strong>25.05.2015</strong> - 1.2.1: I have moved the cookieBAR plugin to jsDelivr, a shiny Content Delivery Network (CDN). It should be faster and more reliable. If you are still using the old <strong>//cookie-bar.eu</strong> path, you really should switch to the new path.</li>
+                        <li><strong>20.05.2015</strong> - 1.2.0: Fixed a nasty CSS bug that made the bar's text strange or even invisible at all.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="preventive-block" class="col s12 m10 offset-m1">
+                <div class="section">
+                    <a id="important-reading"></a>
+                    <h5>Customize cookies (1.9)</h5>
+                    <p>
+                    Starting from version 1.9, the user may want to choose whether to accept technical or third-party cookies. This choice creates a new state for the `cookiebar` cookie, which is "CookieCustomized".
+                    In this case, in your backend, it will be necessary to make two new checks to verify the value of the cookies `cookiebar-tracking` and `cookiebar-third-barty` (whose value can be true or false), and to instantiate the services, in a similar way to the following examples.
+                    </p>
+
+                    <h5>Preventive blocking of external services</h5>
+                    Please note that in some countries, the cookie law wants you to preventively block cookies before they are set, in an opt-in choice for the user.<br>
+                    Doing so is a bit more technical than just having a banner like the cookieBAR, and there is not a unique solution for that. It depends on your website
+                    and its technology.<br>
+                    By using cookieBAR anyway, it is easy to detect if a user has accepted cookies by checking the presence of a cookie named "cookiebar".<br>
+                    That cookie can have two values: "CookieAllowed" or "CookieDisallowed".<br>
+                    These are some examples of this kind of check before loading a script:<br><br>
+
+                    <h6>In JavaScript:</h6>
+                    <pre class="z-depth-1"><span style='color:#808030; '>&lt;</span>script type<span style='color:#808030; '>=</span><span style='color:#800000; '>"</span><span style='color:#0000e6; '>text/javascript</span><span style='color:#800000; '>"</span><span style='color:#808030; '>></span>
+            cookieValue <span style='color:#808030; '>=</span> document<span style='color:#808030; '>.</span>cookie<span style='color:#808030; '>.</span><span style='color:#800000; font-weight:bold; '>match</span><span style='color:#808030; '>(</span><span style='color:#800000; '>/</span><span style='color:#808030; '>(</span><span style='color:#0000e6; '>;</span><span style='color:#808030; '>)</span><span style='color:#808030; '>?</span><span style='color:#0000e6; '>cookiebar=</span><span style='color:#808030; '>(</span><span style='color:#808030; '>[</span><span style='color:#808030; '>^</span><span style='color:#0000e6; '>;</span><span style='color:#808030; '>]</span><span style='color:#808030; '>*</span><span style='color:#808030; '>)</span><span style='color:#0000e6; '>;</span><span style='color:#808030; '>?</span><span style='color:#800000; '>/</span><span style='color:#808030; '>)</span><span style='color:#808030; '>[</span><span style='color:#008c00; '>2</span><span style='color:#808030; '>]</span><span style='color:#800080; '>;</span>
+            <span style='color:#800000; font-weight:bold; '>if</span> <span style='color:#808030; '>(</span>cookieValue <span style='color:#808030; '>==</span> <span style='color:#800000; '>'</span><span style='color:#0000e6; '>CookieAllowed</span><span style='color:#800000; '>'</span><span style='color:#808030; '>)</span> <span style='color:#800080; '>{</span>
+            <span style='color:#696969; '>// The user has allowed cookies, let's load our external services</span>
+            <span style='color:#800080; '>}</span>
+            <span style='color:#808030; '>&lt;</span><span style='color:#808030; '>/</span>script<span style='color:#808030; '>></span>
+                </pre>
+
+                    <h6>or PHP</h6>
+                    <pre class="z-depth-1"><span style='color:#5f5035;'>&lt;?php</span><span style='color:#000000;'></span>
+            <span style='color:#800000;font-weight:bold; '>if</span><span style='color:#000000;'> </span><span style='color:#808030;'>(</span><span style='color:#797997;'>$_COOKIE</span><span style='color:#808030;'>[</span><span style='color:#0000e6;'>'cookiebar'</span><span style='color:#808030;'>]</span><span style='color:#000000;'> </span><span style='color:#808030;'>=</span><span style='color:#808030;'>=</span><span style='color:#000000;'> </span><span style='color:#0000e6;'>"CookieAllowed"</span><span style='color:#808030;'>)</span><span style='color:#000000;'> </span><span style='color:#800080;'>{</span><span style='color:#000000;'></span>
+            <span style='color:#000000;'>&#xa0;&#xa0;&#xa0;&#xa0;</span><span style='color:#696969;'>// The user has allowed cookies, let's load our external services</span><span style='color:#000000;'></span>
+            <span style='color:#800080;'>}</span><span style='color:#000000;'></span>
+            <span style='color:#5f5035;'>?></span>
+                </pre>
+
+                    <h6>or Classic ASP VBScript</h6>
+                    <pre class="z-depth-1"><span style='color:#5f5035; '>&lt;%</span><span style='color:#000000; '></span>
+            <span style='color:#800000; font-weight:bold; '>If</span><span style='color:#000000; '> Request</span><span style='color:#008c00; '>.</span><span style='color:#000000; '>Cookies</span><span style='color:#808030; '>(</span><span style='color:#808030; '>"</span><span style='color:#0000e6; '>cookiebar</span><span style='color:#808030; '>"</span><span style='color:#808030; '>)</span><span style='color:#000000; '> </span><span style='color:#808030; '>=</span><span style='color:#000000; '> </span><span style='color:#808030; '>"</span><span style='color:#0000e6; '>CookieAllowed</span><span style='color:#808030; '>"</span><span style='color:#000000; '> </span><span style='color:#800000; font-weight:bold; '>Then</span><span style='color:#000000; '></span>
+            <span style='color:#000000; '>&#xa0;&#xa0;&#xa0;&#xa0;</span><span style='color:#696969; '>' The user has allowed cookies, let's load our external services</span><span style='color:#000000; '></span>
+            <span style='color:#800000; font-weight:bold; '>End If</span><span style='color:#000000; '></span>
+            <span style='color:#5f5035; '>%></span>
+                </pre>
+
+                    <h6>or Rails - Haml version</h6>
+                    <pre class="z-depth-1"><span style='color:#808030; '>-</span> <span style='color:#800000; font-weight:bold; '>if</span> cookies<span style='color:#808030; '>[</span><span style='color:#800000; '>"</span><span style='color:#0000e6; '>accept_cookies_policy</span><span style='color:#800000; '>"</span><span style='color:#808030; '>]</span> <span style='color:#808030; '>==</span> <span style='color:#800000; '>'</span><span style='color:#0000e6; '>1</span><span style='color:#800000; '>'</span>
+            <span style='color:#696969; '>//DO YOUR STUFF</span>
+                </pre>
+
+                    <h6>or Rails - ERB version</h6>
+                    <pre class="z-depth-1"><span style='color:#808030; '>&lt;</span><span style='color:#808030; '>%</span> <span style='color:#800000; font-weight:bold; '>if</span> cookies<span style='color:#808030; '>[</span><span style='color:#800000; '>"</span><span style='color:#0000e6; '>accept_cookies_policy</span><span style='color:#800000; '>"</span><span style='color:#808030; '>]</span> <span style='color:#808030; '>==</span> <span style='color:#800000; '>'</span><span style='color:#0000e6; '>1</span><span style='color:#800000; '>'</span> <span style='color:#808030; '>%</span><span style='color:#808030; '>></span>
+            <span style='color:#808030; '>&lt;</span><span style='color:#808030; '>--</span><span style='color:#808030; '>!</span>DO YOUR STUFF <span style='color:#808030; '>--</span><span style='color:#808030; '>></span>
+            <span style='color:#808030; '>&lt;</span><span style='color:#808030; '>%</span> end <span style='color:#808030; '>%</span><span style='color:#808030; '>></span>
+                </pre>
+
+                    <br><br>
+
+                    If you have some snippets in other languages that could be useful to the users, please drop me a line.
+                </div>
+            </div>
+
+            <div id="logging" class="col s12 m10 offset-m1">
+                <div class="section">
+                    <a id="important-reading"></a>
+                    <h5>Logging user choices</h5>
+                    <p>
+                    In some countries it is necessary to keep a record of the user's choices regarding cookies.<br>
+                    CookieBAR is a frontend-only tool, and for now it doesn't provide this functionality, but it's easy to get the result of a user's choice and save the record in your own database.<br><br>
+
+                    When a user sets a preference, a cookie is in fact recorded, called `cookiebar`, which can contain one of these values:<br>
+
+                    <ul class='list'>
+                    <li><span class='keyword'>CookieAllowed</span> (the user has chosen to accept all cookies),</li>
+                    <li><span class='keyword'>CookieDisallowed</span> (the user has chosen to refuse all cookies),</li>
+                    <li><span class='keyword'>CookieCustomized</span> (the user has chosen to accept only certain types of cookies).</li>
+                    </ul>
+                    <br>
+
+                    In the event that the user has chosen to customize cookies, it will be possible to find one or two additional cookies:
+                    <ul class='list'>
+                    <li><span class='keyword'>cookiebar-tracking</span> (the user has accepted the tracking cookies),</li>
+                    <li><span class='keyword'>cookiebar-third-party</span> (the user has accepted third-party cookies).</li>
+                    </ul>
+                    <br>
+                    With this information you should be able to create your own function for saving user choices, without relying on external services.
+                    </p>
+                </div>
+            </div>
+
+            <div id="legal-notes" class="col s12 m10 offset-m1">
+                <div class="section">
+                    <a id="legal-reading"></a>
+                    <h5>Legal Notes</h5>
+                    <p>Please note that using cookieBAR (or any similar tool) might not be sufficient to fully accomplish
+                        your country's cookie law. Please read the following links to find out more.</p>
+
+                    <ul class="browser-default">
+                        <li>
+                            Belgio: Commission de la protection de la vie priv&eacute;e (&nbsp;<a rel="noreferrer" href="http://www.privacycommission.be/sites/privacycommission/files/documents/Projet_de_recommandation_cookies.pdf" target="_blank">French</a>&nbsp;
+                            |&nbsp;<a rel="noreferrer" href="http://www.privacycommission.be/sites/privacycommission/files/documents/Ontwerp_aanbeveling_cookies.pdf" target="_blank">Dutch</a>&nbsp;)
+                        </li>
+                        <li>Czech Republic:&nbsp;<a rel="noreferrer" href="http://www.uoou.cz/vismo/zobraz_dok.asp?id_org=200144&amp;id_ktg=1853&amp;n=cookies-prechod-z-principu-opt-out-na-opt-in&amp;query=cookie" target="_blank">&Uacute;řad pro ochranu osobn&iacute;ch &uacute;dajů</a></li>
+                        <li>France:&nbsp;<a rel="noreferrer" href="http://www.cnil.fr/vos-obligations/sites-web-cookies-et-autres-traceurs/" target="_blank">Commission Nationale de l&#39;Informatique et des Libert&eacute;s</a></li>
+                        <li>Germany:&nbsp;<a rel="noreferrer" href="http://www.bfdi.bund.de/DE/Home/home_node.html" target="_blank">Bundesbeauftragten für den Datenschutz und die Informationsfreiheit</a></li>
+                        <li>Italy:&nbsp;<a rel="noreferrer" href="http://www.garanteprivacy.it/web/guest/home/docweb/-/docweb-display/docweb/3118884" target="_blank">Garante per la protezione dei dati personali</a></li>
+                        <li>Luxembourg:&nbsp;<a rel="noreferrer" href="http://www.cnpd.public.lu/fr/actualites/international/2012/06/G29-avis-cookies/index.html?highlight=cookies" target="_blank">Commission nationale pour la protection des donn&eacute;es</a></li>
+                        <li>Netherlands:&nbsp;<a rel="noreferrer" href="https://www.acm.nl/nl/publicaties/publicatie/12768/Veelgestelde-vragen-over-de-cookiebepaling/" target="_blank">Autoriteit Consument en Markt</a></li>
+                        <li>Norway:&nbsp; <a rel="noreferrer" href="https://www.datatilsynet.no/Teknologi/Internett/cookies/" target="_blank">Datatilsynet</a></li>
+                        <li>Spain:&nbsp;<a rel="noreferrer" href="http://www.agpd.es/portalwebAGPD/canaldocumentacion/publicaciones/common/Guias/Guia_Cookies.pdf" target="_blank">Agencia de Protecci&oacute;n de Datos</a></li>
+                        <li>UK:&nbsp;<a rel="noreferrer" href="http://ico.org.uk/for_organisations/privacy_and_electronic_communications/the_guide/cookies" target="_blank">Information Commissioner&#39;s Office</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="contributors" class="col s12 m10 offset-m1">
+                <div class="section">
+                    <a id="github"></a>
+                    <h5>Code contributors</h5>
+                    <p>Code reviews, new functionalities, themes, languages... everything that can be useful for the users is very welcome. Plus, your name will be shown in the GitHub list :-)</p>
+                    <p>ToX82, pinhead84, michael-simons, utilsites, frantique, hrvoj3e, emanuelcanuto, bricebou, LucaRainone, xterr, timoleon, pridumkuvatyj, ominty, jacmaes, dskarasev, dan-szabo, catalin-tudor, burzka, buildcomplete, andreidumi, MartinKolarik, MarcCeleiro, MZOG, LukasDrgon, Hexodus, Fredrik82, D9ping, Commander238, AlexxIV, Adsidera...</p>
+
+                    <a href='https://github.com/ToX82/cookie-bar/graphs/contributors' target="_blank" rel="nofollow">See the full GitHub's list</a>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="section">
+                    <a id="special-thanks-to-the-donors"></a>
+                    <h5>Special thanks to the donors</h5>
+                    <ul>
+                        <li>Marco Frabetti, Marc Sellier, Bastian Scheefe, Martin J Powell, Gilles Nguyen, Ulrich Wende,
+                        Luca Gilardoni, Simen Ness, Monika Mosch, CompuSense Communication, John Stevens,
+                        Agriturismo Villa Podernovo Siena, Gottfried Weber, Jussi Ruuskanen, Alex Roberts,
+                        Adam Wojtanek, Software Studio ing. Di Marco, Miroslav Svoboda, Adrian Döring, Dieter Walckiers,
+                        AllMediaLab</li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="divider"></div>
@@ -190,12 +689,6 @@
 
 <script>
 if (document.cookie.match(/cookiebar=CookieAllowed/)) {
-    // AddThis widget
-    let addthisScript = document.createElement('script');
-    addthisScript.src = '//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5571f1ac18f4dec2';
-    addthisScript.async = true;
-    document.body.appendChild(addthisScript);
-
     // Tawk.to widget
     var Tawk_API = Tawk_API || {};
     Tawk_LoadStart = new Date();
@@ -218,82 +711,13 @@ if (document.cookie.match(/cookiebar=CookieAllowed/)) {
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/materialize-css@1/dist/js/materialize.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/htmx.org@1/dist/htmx.min.js"></script>
 
 <script>
-document.write('<script src="' + cookieBarLink + '?' + params + '"><\/script>');
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const hash = window.location.hash;
-        let defaultTab = './tabs/configuration.html';
-        let tabToSelect = '#configuration';
-        let tabToLoad = defaultTab;
-
-        if (hash) {
-            const tabName = hash.substring(1); // Rimuove il # iniziale
-            // Verifica che il tab richiesto esista
-            const validTabs = ['configuration', 'preventive-block', 'contributors', 'logging', 'legal-notes', 'news'];
-            if (validTabs.includes(tabName)) {
-                tabToLoad = `./tabs/${tabName}.html`;
-                tabToSelect = hash;
-            }
-        }
-
-        // Carica il contenuto del tab
-        htmx.ajax('GET', tabToLoad, {
-            target: '#tab-content',
-            swap: 'innerHTML'
-        });
-
-        // Seleziona il tab corretto
-        const tabElement = document.querySelector(`a[href="${tabToSelect}"]`);
-        if (tabElement) {
-            tabElement.click();
-        }
-
-        if (tabToSelect === '#configuration') {
-            document.body.addEventListener('htmx:afterSwap', function(evt) {
-                reloadConfig();
-            });
-        }
-    });
-
-    function reloadConfig() {
-        const hash = window.location.hash;
-        const tabName = hash.substring(1);
-
-        if (tabName !== 'configuration') {
-            return;
-        }
-
-        const urlParams = new URLSearchParams(window.location.search);
-
-        // Imposta i valori dei campi in base ai parametri URL
-        document.getElementById('forceLang').value = urlParams.get('forceLang') || '';
-        document.getElementById('theme').value = urlParams.get('theme') || '';
-        document.getElementById('customize').checked = urlParams.has('customize');
-        document.getElementById('tracking').checked = urlParams.has('tracking');
-        document.getElementById('thirdparty').checked = urlParams.has('thirdparty');
-        document.getElementById('always').checked = urlParams.has('always');
-        document.getElementById('noGeoIp').checked = urlParams.has('noGeoIp');
-        document.getElementById('scrolling').checked = urlParams.has('scrolling');
-        document.getElementById('refreshPage').checked = urlParams.has('refreshPage');
-        document.getElementById('top').checked = urlParams.has('top');
-        document.getElementById('showNoConsent').checked = urlParams.has('showNoConsent');
-        document.getElementById('noConfirm').checked = urlParams.has('noConfirm');
-        document.getElementById('hideDetailsBtn').checked = urlParams.has('hideDetailsBtn');
-        document.getElementById('showPolicyLink').checked = urlParams.has('showPolicyLink');
-        document.getElementById('blocking').checked = urlParams.has('blocking');
-        document.getElementById('remember').value = urlParams.get('remember') || '';
-        document.getElementById('privacyPage').value = urlParams.get('privacyPage') || '';
-
-        document.getElementById('remember').dispatchEvent(new Event('focus'));
-        document.getElementById('privacyPage').dispatchEvent(new Event('focus'));
-        document.getElementById('remember').dispatchEvent(new Event('blur'));
-        document.getElementById('privacyPage').dispatchEvent(new Event('blur'));
-    }
+// Caricati in modo sincrono: cookiebar si inizializza su DOMContentLoaded, quindi non può essere iniettata
+// in modo asincrono. Deve essere il primo script con "cookiebar" nell'src, perché è così che trova il proprio
+// percorso e i parametri (su GitHub Pages anche script.js sta sotto /cookiebar-website/)
+document.write('<script id="cookiebar-script" src="' + cookieBarLink + '"><\/script>');
+document.write('<script src="' + scriptLink + '"><\/script>');
 </script>
 
 </body>
